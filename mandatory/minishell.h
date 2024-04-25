@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/04/24 01:09:02 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/04/25 22:08:55 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,10 @@ char	**ft_split(char const *s, char c);
 void	excute_cmd(t_parse *st);
 void	ft_free(char **s);
 void	change_directory(t_parse *st);
+void	excute_file(t_parse *st);
+void	terminate_shell(t_parse *st);
+int		ft_strcmp(const char *s1, const char *s2);
+int		count_args(char **s);
+int		numbered_args(char **s);
 
 #endif

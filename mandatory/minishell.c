@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/04/24 01:09:35 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/04/25 21:49:22 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char __attribute__((unused))*argv[], char *env[])
 {
 	t_parse	*st;
 
-	atexit(leaks);
+	// atexit(leaks);
 	if (argc != 1 || !*env)
 		return (1);
 	st = malloc(sizeof(t_parse));
@@ -50,37 +50,39 @@ void	error(t_parse *st, int y)
 
 void	signal_handler(int signum, t_parse *st)
 {
-	if (signum == SIGUSR1)
-		exit(1);
 	if (signum == SIGINT)
 	{
 		printf("\n");
 		wait_prompt(st);
 	}
 	else if (signum == SIGQUIT)
+	{
 		exit(0);
-	// else if (signum == SIGTSTP)
-	// {
-	// 	printf("\nReceived SIGTSTP (Ctrl+Z)\n");
-	// }
-	// else if (signum == SIGTERM)
-	// {
-	// 	printf("\nReceived SIGTERM\n");
-	// }
+	}
 }
 
 void	wait_prompt(t_parse *st)
 {
 	while (1)
 	{
-		// signal(SIGINT, (void *)signal_handler);
-		st->arr = readline(BLUE_TEXT"Shellantics ~:"RESET_TEXT);
+		signal(SIGQUIT, (void *)signal_handler);
+		st->arr = readline("Shellantics-$ ");
 		if (!st->arr)
 			error(st, 3);
 		if (ft_strlen(st->arr) == 0)
 			continue ;
-		add_history(st->arr);
 		st->com_arr = ft_split(st->arr, ' ');
+		if (!(ft_strcmp(st->com_arr[0], "exit")))
+		{
+			terminate_shell(st);
+			continue ;
+		}
+		add_history(st->arr );
+		if (st->arr[0] == '.' && st->arr[1] == '/')
+		{
+			excute_file(st);
+			continue ;
+		}
 		st->com_path = get_acc_path(st->paths_array, st->com_arr[0]);
 		if (!st->com_path)
 			printf("%s :command not found\n", st->arr);
