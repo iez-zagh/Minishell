@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 16:23:12 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 20:18:25 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int main(int argc, char __attribute__((unused)) * argv[], char *env[])
 	st->path = getenv("PATH");
 	st->paths_array = ft_split(st->path, ':');
 	st->env = NULL;
-	set_env(&st->env, st->env2);
+	set_env(&st->env, env);
+	list2array(st->env, st);
 	wait_prompt(st);
 }
 

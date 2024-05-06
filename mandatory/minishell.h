@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 14:43:05 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 20:15:06 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,8 @@ void	add_var(t_env **env_vars, t_env *new);
 t_env	*last_var(t_env *env_vars);
 char	*ft_substr(const char *s, int start, int end);
 int		env_cmd(t_parse	*st);
+int		lstcounter(t_env	*env);
+char	*ft_strjoin_env(char *s1, char *s2);
+void	list2array(t_env *env, t_parse *st);
 
 #endif
