@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/04/25 22:08:55 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 10:52:52 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,24 +30,28 @@ typedef struct s_data
 	char	**cmd;
 }		t_data;
 
-typedef struct t_var
+typedef struct t_env
 {
 	// name=hamza
-	char	*var; // $name
-	char	*value; // hamza
-}		t_var;
+	char		*key; // $name
+	char		*value; // hamza
+	struct t_env *next;
+}		t_env;
 
 typedef struct t_parse
 {
-	t_var			*myvar; // pointer to linked list of variables
+	// t_var			*env; // pointer to linked list of variables
 	char			*arr;
-	char			**cmd;// {"cat", NULL}  {"-l", NULL}
+	// char			**cmd;// {"cat", NULL}  {"-l", NULL}
+	// t_data			*h;
 	char			*type;// command  flag  pipe  <  >  << || >> ...
 	char			**com_arr;
 	char			**paths_array;
-	char			*env;
+	char			*path;
 	char			*com_path;
 	char			**env2;
+	t_env			*env;
+	int				exit_status;
 	struct t_parse	*next;
 }		t_parse;
 
@@ -72,6 +76,14 @@ void	excute_file(t_parse *st);
 void	terminate_shell(t_parse *st);
 int		ft_strcmp(const char *s1, const char *s2);
 int		count_args(char **s);
-int		numbered_args(char **s);
+int		numbered_arg(char *s);
+void	freeing(t_parse *st);
+size_t	ft_atol(char *s, t_parse *st);
+void	ft_exit(t_parse *st, int args_n);
+int		checking_cmd(t_parse *st);
+void	set_env(t_env **env_vars, char **env);
+void	add_var(t_env **env_vars, t_env *new);
+t_env	*last_var(t_env *env_vars);
+char	*ft_substr(const char *s, int start, int end);
 
 #endif

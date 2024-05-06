@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 11:27:13 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:42:48 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	excute_cmd(t_parse *st)
 	if (ft_strncmp(st->com_arr[0], "cd", 2) == 0)
 	{
 		change_directory(st);
-		return 
-			;
+		return ;
 	}
-	if (ft_strncmp(st->com_arr[0], "..", 2) == 0 || ft_strncmp(st->com_arr[0], ".", 1) == 0)
+	if (!ft_strcmp(st->com_arr[0], ".."))
 	{
+		printf("%s: command not found\n",st->com_arr[0]);
 		return ;
 	}
 	pid = fork();
@@ -62,7 +62,8 @@ void	excute_file(t_parse *st)
 
 	pid = fork();
 	if (pid == 0)
-		execve(st->com_arr[0], st->com_arr, st->env2);
+		if (execve(st->com_arr[0], st->com_arr, st->env2) == -1)
+			printf("Shellantics: %s: No such file or directory\n", st->com_arr[0]);
 	wait (0);
 }
 
@@ -71,16 +72,19 @@ void	terminate_shell(t_parse *st)
 	int	args_n;
 
 	args_n = count_args(st->com_arr);
-	if ((numbered_args(&st->com_arr[1])))
-		printf("exit\nShellantics: exit: numeric argument required\n");
-	else if (args_n > 2 && (numbered_args(&st->com_arr[1])))
+	if (args_n == 1 || args_n == 2)
+		ft_exit(st, args_n);
+	if (!(numbered_arg(st->com_arr[1])) && (count_args(st->com_arr)) > 2)
 	{
 		printf("exit\nShellantics: exit: too many arguments\n");
 		return ;
 	}
-	printf("exit\n");
-	free (st);
-	exit (0);
+	if ((numbered_arg(st->com_arr[1])))
+	{
+		printf("exit\nShellantics: exit: %s: numeric argument required\n", st->com_arr[1]);
+		freeing(st);
+		exit (255);
+	}
 }
 
 int	count_args(char **s)
@@ -93,3 +97,10 @@ int	count_args(char **s)
 	return (i);
 }
 
+void	freeing(t_parse *st)
+{
+	ft_free(st->com_arr);
+	ft_free(st->paths_array);
+	free(st->arr);
+	free (st);
+}

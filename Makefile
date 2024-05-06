@@ -4,6 +4,7 @@ YELLOW_TEXT =\033[1;33m
 RESET_TEXT =\033[0m
 
 NAME = minishell
+N = -fsanitize=address
 BONUS = minishell_bonus
 CFLAGS = -Wall -Wextra -Werror
 CC = cc
@@ -25,7 +26,7 @@ B_OBJECTS = ${B_SOURCES:.c=.o}
 all : $(NAME)
 
 $(NAME) : $(M_OBJECTS)
-	@$(CC) $(M_OBJECTS) -lreadline -o $(NAME)
+	@$(CC) $(M_OBJECTS) -lreadline $(N) -fsanitize=address -o $(NAME)
 	@echo "$(GREEN_TEXT)[the executable created successfully]$(RESET_TEXT)"
 
 bonus : $(BONUS)
@@ -45,5 +46,3 @@ fclean : clean
 
 re : fclean all
 .PHONY : clean
-
-#/logtime start_date:2024-03-29
