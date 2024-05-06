@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/04/26 00:13:12 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 11:27:13 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	excute_cmd(t_parse *st)
 	if (ft_strncmp(st->com_arr[0], "cd", 2) == 0)
 	{
 		change_directory(st);
-		return ;
+		return 
+			;
 	}
 	if (ft_strncmp(st->com_arr[0], "..", 2) == 0 || ft_strncmp(st->com_arr[0], ".", 1) == 0)
 	{
