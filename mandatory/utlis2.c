@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 11:08:55 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:24:12 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,64 @@ int	checking_cmd(t_parse *st)
 	if (st->arr[0] == '.' && st->arr[1] == '/')
 	{
 		excute_file(st);
-		returnn (1);
+		return (1);
 	}
-	if (!strcmp("env", st->com_arr[0]))
+	if (!ft_strcmp("env", st->com_arr[0]))
 	{
 		if (env_cmd(st))
-			retur (1);
+			return (1);
 	}
 	return (0);
 }
 
 int	env_cmd(t_parse	*st)
 {
-	if (numbered_arg()
+	t_env	*tmp;
+
+	if (count_args(st->com_arr) > 1)
+	{
+		printf ("minishell: env: Too many arguments.\n");
+		return (1);
+	}
+	else
+	{
+		tmp = tmp;
+		while (tmp)
+		{
+			printf("%s=%s\n", tmp->key, tmp->value);
+			tmp = tmp->next;
+		}
+		return (1);
+	}
+}
+
+char	**list2array(t_env *env, t_parse *st)
+{
+	int		i;
+	t_env	*tmp;
+
+	i = 0;
+	tmp = st->env;
+	st->env2 = malloc (sizeof(char *) * (lstcounter(env) + 1));
+	if (!st->env2)
+		error(st, 2);
+	while (tmp)
+	{
+		st->env2[i] = ft_strjoin_env(tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
+
+}
+
+int	lstcounter(t_env	*env)
+{
+	int	counter;
+
+	counter = 0;
+	while (env)
+	{
+		env = env->next;
+		counter++;
+	}
+	return (counter);
 }

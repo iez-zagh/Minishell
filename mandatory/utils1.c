@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:23:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/04/23 23:53:05 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:19:17 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	join_string = (char *)malloc
 		((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
-	if (join_string == 0)
+	if (!join_string)
 		return (0);
 	join = join_string;
 	while (*s1)
 	{
-		*join = *s1;	
+		*join = *s1;
 		join++;
 		s1++;
 	}

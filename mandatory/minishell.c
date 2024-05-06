@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 10:13:09 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:23:12 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,17 @@ int main(int argc, char __attribute__((unused)) * argv[], char *env[])
 {
 	t_parse *st;
 
-	// atexit(leaks);
+	atexit(leaks);
 	if (argc != 1 || !*env)
 		return (1);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
-	st->env2 = env;
+	// st->env2 = env;
 	st->path = getenv("PATH");
 	st->paths_array = ft_split(st->path, ':');
 	st->env = NULL;
 	set_env(&st->env, st->env2);
-	while (st->env)
-	{
-		printf("%s=%s\n", st->env->key, st->env->value);
-		st->env= st->env->next;
-	}
 	wait_prompt(st);
 }
 

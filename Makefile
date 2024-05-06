@@ -26,7 +26,7 @@ B_OBJECTS = ${B_SOURCES:.c=.o}
 all : $(NAME)
 
 $(NAME) : $(M_OBJECTS)
-	@$(CC) $(M_OBJECTS) -lreadline $(N) -fsanitize=address -o $(NAME)
+	@$(CC) $(M_OBJECTS) -lreadline -o $(NAME)
 	@echo "$(GREEN_TEXT)[the executable created successfully]$(RESET_TEXT)"
 
 bonus : $(BONUS)
