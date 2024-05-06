@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 20:15:00 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:19:52 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	env_cmd(t_parse	*st)
 		tmp = st->env;
 		while (tmp)
 		{
-			printf("%s=%s\n", tmp->key, tmp->value);
+			printf("%s==%s\n", tmp->key, tmp->value);
 			tmp = tmp->next;
 		}
 		return (1);
@@ -82,7 +82,6 @@ void	list2array(t_env *env, t_parse *st)
 		st->env2[i++] = ft_strjoin_env(tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
-	st->env2[i] = NULL;
 }
 
 int	lstcounter(t_env	*env)

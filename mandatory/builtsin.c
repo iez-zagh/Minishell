@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 20:05:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 20:09:55 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/06 20:58:34 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ char	*ft_strjoin_env(char *s1, char *s2)
 		s1++;
 	}
 	*join = '=';
+    join++;
 	while (*s2)
 	{
-		join++;
 		*join = *s2;
+		join++;
 		s2++;
 	}
 	*join = '\0';
