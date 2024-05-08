@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 15:15:18 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:03:07 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,16 @@ void	freeing(t_parse *st)
 	ft_free(st->paths_array);
 	free(st->arr);
 	free (st);
+}
+
+void	free_list(t_env *env)
+{
+	t_env	*tmp;
+	
+	while (env)
+	{
+		tmp = env->next;
+		free (env);
+		env = tmp;
+	}
 }
