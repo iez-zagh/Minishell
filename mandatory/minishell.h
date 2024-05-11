@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 20:15:06 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/09 21:30:58 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ typedef struct t_env
 	struct t_env *next;
 }		t_env;
 
+// {
+// 	char **cmd;
+// 	char **in;
+// 	char **out;
+// 	char **app;
+// }
+
 typedef struct t_parse
 {
 	// t_var			*env; // pointer to linked list of variables
@@ -52,7 +59,6 @@ typedef struct t_parse
 	char			**env2;
 	t_env			*env;
 	int				exit_status;
-	struct t_parse	*next;
 }		t_parse;
 
 char	*get_com_path(t_parse *st);
@@ -89,5 +95,6 @@ int		env_cmd(t_parse	*st);
 int		lstcounter(t_env	*env);
 char	*ft_strjoin_env(char *s1, char *s2);
 void	list2array(t_env *env, t_parse *st);
+void	free_list(t_env *env);
 
 #endif

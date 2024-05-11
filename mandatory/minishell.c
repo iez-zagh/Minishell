@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/07 12:05:40 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/11 20:16:45 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ void leaks(void)
 	system("leaks minishell");
 }
 
-int main(int argc, char __attribute__((unused)) * argv[], char *env[])
+int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[], char *env[])
 {
-	t_parse *st;
+	t_parse *st;	
 
-	atexit(leaks);
-	if (argc != 1 || !*env)
-		return (1);
+	// atexit(leaks);
+	// if (argc != 1 || !*env)
+	// 	return (1);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
-	// st->env2 = env;
 	st->path = getenv("PATH");
 	st->paths_array = ft_split(st->path, ':');
 	st->env = NULL;
