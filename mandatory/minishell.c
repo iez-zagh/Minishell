@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 12:11:06 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:42:11 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	t_parse *st;	
 
 	// atexit(leaks);
-	// if (argc != 1 || !*env)
-	// 	return (1);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
 	st->path = getenv("PATH");
-	st->paths_array = ft_split(st->path, ':');
 	if (!env[0])
 		empty_env(env, st);
+	st->paths_array = ft_split(st->path, ':');
 	st->env = NULL;
 	set_env(&st->env, env);
 	list2array(st->env, st);
@@ -79,6 +77,7 @@ void wait_prompt(t_parse *st)
 		add_history(st->arr);
 		if (checking_cmd(st))
 			continue ;
+		 puts("hi");
 		st->com_path = get_acc_path(st->paths_array, st->com_arr[0]);
 		if (!st->com_path)
 			printf("%s :command not found\n", st->arr);

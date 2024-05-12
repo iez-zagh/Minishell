@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:23:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/06 16:19:17 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:40:43 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,4 @@ char	*get_acc_path(char **paths, char *com)
 		free(rr);
 	}
 	return (NULL);
-}
-
-char	*get_com_path(t_parse *st)
-{
-	char *com_path = get_acc_path(st->paths_array, st->arr);
-	return (com_path);
 }

@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 11:40:26 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:42:20 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,6 @@ void	excute_cmd(t_parse *st)
 {
 	int	pid;
 
-	if (ft_strncmp(st->com_arr[0], "cd", 2) == 0)
-	{
-		change_directory(st);
-		return ;
-	}
-	if (!ft_strcmp(st->com_arr[0], ".."))
-	{
-		printf("%s: command not found\n",st->com_arr[0]);
-		return ;
-	}
 	pid = fork();
 	if (pid == 0)
 		execve(st->com_path, st->com_arr, st->env2);

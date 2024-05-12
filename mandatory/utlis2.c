@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 16:06:25 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:43:40 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	checking_cmd(t_parse *st)
 		if (env_cmd(st))
 			return (1);
 	}
+	if (checking_cmd2(st))
+		return (1);
 	return (0);
 }
 

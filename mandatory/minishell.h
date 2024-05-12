@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 12:10:26 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:43:49 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,5 +97,6 @@ char	*ft_strjoin_env(char *s1, char *s2);
 void	list2array(t_env *env, t_parse *st);
 void	free_list(t_env *env);
 void	empty_env(char **env, t_parse *st);
+int	checking_cmd2(t_parse *st);
 
 #endif

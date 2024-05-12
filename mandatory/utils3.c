@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 16:03:46 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 23:44:02 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	empty_env(char **env, t_parse *st)
 	
 	pwd = malloc (1024);
 	env[0] = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin";
+	st->path = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin";
 	if (getcwd(pwd, 1024))
 	{
 		pwd = ft_strjoin("PWD=", pwd);
@@ -84,4 +85,19 @@ void	empty_env(char **env, t_parse *st)
 		error(st ,6);
 	env[2] = "SHLVL=1";
 	env[3] = NULL;
+}
+
+int	checking_cmd2(t_parse *st)
+{
+	if (ft_strncmp(st->com_arr[0], "cd", 2) == 0)
+	{
+		change_directory(st);
+		return (1);
+	}
+	if (!ft_strcmp(st->com_arr[0], ".."))
+	{
+		printf("%s: command not found\n",st->com_arr[0]);
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@ RESET_TEXT =\033[0m
 NAME = minishell
 N = -fsanitize=address
 BONUS = minishell_bonus
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 CC = cc
 MANDATORY_DIR = mandatory
 BONUS_DIR = bonus
