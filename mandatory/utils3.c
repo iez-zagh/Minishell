@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/09 13:23:01 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/12 16:03:46 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,21 @@ void	ft_exit(t_parse *st, int args_n)
 		printf ("exit\n");
 		exit (n);
 	}
+}
+
+void	empty_env(char **env, t_parse *st)
+{
+	char	*pwd;
+	
+	pwd = malloc (1024);
+	env[0] = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin";
+	if (getcwd(pwd, 1024))
+	{
+		pwd = ft_strjoin("PWD=", pwd);
+		env[1] = pwd;
+	}
+	else
+		error(st ,6);
+	env[2] = "SHLVL=1";
+	env[3] = NULL;
 }

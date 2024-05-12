@@ -34,6 +34,7 @@ void	set_env(t_env **env_vars, char **env)
 			j++;
 		start = j + 1;
 		end = ft_strlen(env[i]);
+		// printf("%s\n", env[i]);
 		new_var = malloc(sizeof(t_env));
 		new_var->key = ft_substr(env[i], 0, j);
 		new_var->value = ft_substr(env[i], start, end - start);
