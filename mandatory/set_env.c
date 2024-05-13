@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   set_env.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/13 12:35:31 by iez-zagh          #+#    #+#             */
+/*   Updated: 2024/05/13 12:35:38 by iez-zagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_env	*last_var(t_env *env_vars)
@@ -34,7 +46,6 @@ void	set_env(t_env **env_vars, char **env)
 			j++;
 		start = j + 1;
 		end = ft_strlen(env[i]);
-		// printf("%s\n", env[i]);
 		new_var = malloc(sizeof(t_env));
 		new_var->key = ft_substr(env[i], 0, j);
 		new_var->value = ft_substr(env[i], start, end - start);

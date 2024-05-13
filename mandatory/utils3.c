@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 23:44:02 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:36:47 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	empty_env(char **env, t_parse *st)
 	else
 		error(st ,6);
 	env[2] = "SHLVL=1";
-	env[3] = NULL;
+	env[3] = "_=/usr/bin/env";
+	env[4] = NULL;
 }
 
 int	checking_cmd2(t_parse *st)

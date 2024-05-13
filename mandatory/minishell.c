@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 23:42:11 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:30:40 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 {
 	t_parse *st;	
 
-	// atexit(leaks);
+	atexit(leaks);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
@@ -77,7 +77,6 @@ void wait_prompt(t_parse *st)
 		add_history(st->arr);
 		if (checking_cmd(st))
 			continue ;
-		 puts("hi");
 		st->com_path = get_acc_path(st->paths_array, st->com_arr[0]);
 		if (!st->com_path)
 			printf("%s :command not found\n", st->arr);

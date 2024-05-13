@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 23:43:49 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/13 11:31:51 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct t_parse
 	int				exit_status;
 }		t_parse;
 
-char	*get_com_path(t_parse *st);
 char	*get_acc_path(char **paths, char *com);
 char	*get_path_variable(char **env);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -97,6 +96,6 @@ char	*ft_strjoin_env(char *s1, char *s2);
 void	list2array(t_env *env, t_parse *st);
 void	free_list(t_env *env);
 void	empty_env(char **env, t_parse *st);
-int	checking_cmd2(t_parse *st);
+int		checking_cmd2(t_parse *st);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 23:42:20 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/13 16:14:05 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	excute_cmd(t_parse *st)
 
 	pid = fork();
 	if (pid == 0)
-		execve(st->com_path, st->com_arr, st->env2);
+		execve(st->com_path, st->com_arr, st->env2); //protection
 	wait(0);
 	return ;
 }
@@ -39,8 +39,11 @@ void change_directory(t_parse *st)
 	stat(st->com_arr[1], &the_path);
 	if (!S_ISDIR(the_path.st_mode))
 	{
-		printf("cd: not a directory: %s\n", st->com_arr[1]);
-		return;
+		if (access(st->com_arr[1], F_OK) != -1)
+		{
+			printf("cd: not a directory: %s\n", st->com_arr[1]);
+			return ;
+		}
 	}
 	if (chdir(st->com_arr[1]) == -1)
 		printf("cd: no such file or directory: %s\n", st->com_arr[1]);
