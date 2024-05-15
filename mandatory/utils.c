@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/13 16:14:05 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:06:53 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ void	ft_free(char **s)
 void change_directory(t_parse *st)
 {
 	struct stat the_path;
+	char		*home;
+
+	if (count_args(st->com_arr) == 1)
+	{
+		home = get_home(st->env);
+		st->com_arr[1] = ft_copy(home);
+	}
 	stat(st->com_arr[1], &the_path);
 	if (!S_ISDIR(the_path.st_mode))
 	{
@@ -77,39 +84,5 @@ void	terminate_shell(t_parse *st)
 		printf("exit\nShellantics: exit: %s: numeric argument required\n", st->com_arr[1]);
 		freeing(st);
 		exit (255);
-	}
-}
-
-int	count_args(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-void	freeing(t_parse *st)
-{
-	free_list(st->env);
-	ft_free(st->com_arr);
-	ft_free(st->paths_array);
-	ft_free(st->env2);
-	free(st->arr);
-	free (st);
-}
-
-void	free_list(t_env *env)
-{
-	t_env	*tmp;
-	
-	while (env)
-	{
-		tmp = env->next;
-		free(env->key);
-		free(env->value);
-		free (env);
-		env = tmp;
 	}
 }

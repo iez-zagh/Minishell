@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/13 15:30:40 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 10:17:31 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 {
 	t_parse *st;	
 
-	atexit(leaks);
+	// atexit(leaks);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
@@ -31,6 +31,12 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	st->paths_array = ft_split(st->path, ':');
 	st->env = NULL;
 	set_env(&st->env, env);
+	// int i=0;
+	// t_rnv *tmp = st->env;
+	// while (st->env)
+	// {
+	// 	printf("")
+	// }
 	list2array(st->env, st);
 	wait_prompt(st);
 }

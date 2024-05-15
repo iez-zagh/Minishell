@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/13 11:36:47 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:04:33 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 int	numbered_arg(char *s)
 {
 	int	i;
-
+	
 	i = 0;
+	if (s[i] == '-' || s[i] == '+')
+		i++;
 	while (s[i])
 	{
 		if (!(s[i] >= '0' && s[i] <= '9'))
@@ -44,8 +46,11 @@ size_t	ft_atol(char *s, t_parse *st)
 	while(s[i])
 	{
 		res = res * 10 + s[i++] - '0';
-		if (res > __LONG_MAX__)
-			error(st, 5);
+		if (!(s[i] >= 0 && s[i] <= '9') || res > __LONG_MAX__)
+		{
+			freeing(st);
+			exit (255);
+		}
 	}
 	return (res * sign);
 }
@@ -74,8 +79,8 @@ void	empty_env(char **env, t_parse *st)
 	char	*pwd;
 	
 	pwd = malloc (1024);
-	env[0] = "PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin";
-	st->path = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin";
+	env[0] = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin";
+	st->path = "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin";
 	if (getcwd(pwd, 1024))
 	{
 		pwd = ft_strjoin("PWD=", pwd);
@@ -99,6 +104,11 @@ int	checking_cmd2(t_parse *st)
 	{
 		printf("%s: command not found\n",st->com_arr[0]);
 		return (1);
+	}
+	if (!ft_strcmp(st->com_arr[0], "export"))
+	{
+		
+		return (1);          
 	}
 	return (0);
 }

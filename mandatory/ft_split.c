@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 19:49:28 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/04/28 19:49:30 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 10:56:37 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*ft_cpy(char const *str, char c)
 	}
 	str -= w_len;
 	copy = (char *)malloc((w_len + 1) * sizeof(char));
-	if (copy == NULL)
+	if (!copy)
 		return (NULL);
 	while (i < w_len)
 	{

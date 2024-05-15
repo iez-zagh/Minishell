@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 23:43:40 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 15:05:26 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,13 @@ int	env_cmd(t_parse	*st)
 		printf ("minishell: env: Too many arguments.\n");
 		return (1);
 	}
-	else
+	tmp = st->env;
+	while (tmp)
 	{
-		tmp = st->env;
-		while (tmp)
-		{
-			printf("%s=%s\n", tmp->key, tmp->value);
-			tmp = tmp->next;
-		}
-		return (1);
+		printf("%s=%s\n", tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
+	return (1);
 }
 
 void	list2array(t_env *env, t_parse *st)
