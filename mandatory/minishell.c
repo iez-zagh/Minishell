@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 21:00:40 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:38:46 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
-	st->path = getenv("PATH");
 	if (!env[0])
 		empty_env(env, st);
 	st->env = NULL;
 	set_env(&st->env, env);
+	list2array(st->env, st);
 	wait_prompt(st);
 }
 
@@ -68,6 +68,7 @@ void wait_prompt(t_parse *st)
 {
 	while (1)
 	{
+		st->path = get_key("PATH", st->env); //handle empty path or else
 		signal(SIGTERM, (void *)signal_handler);
 		st->arr = readline("Shellantics-1.0$ ");
 		if (!st->arr)

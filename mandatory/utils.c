@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 20:24:17 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:39:10 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void change_directory(t_parse *st)
 
 	if (count_args(st->com_arr) == 1)
 	{
-		home = get_home(st->env);
+		home = get_key("HOME", st->env);
 		st->com_arr[1] = ft_copy(home);
 	}
 	stat(st->com_arr[1], &the_path);

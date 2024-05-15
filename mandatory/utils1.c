@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 13:23:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/12 23:40:43 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:32:34 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,22 +62,6 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		n--;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
-}
-
-char	*get_path_variable(char **env)
-{
-	char	*s;
-	int		i;
-
-	s = "PATH";
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strncmp(s, env[i], 4) == 0)
-			return (env[i]);
-		i++;
-	}
-	return (NULL);
 }
 
 char	*get_acc_path(char **paths, char *com)

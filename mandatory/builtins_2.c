@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 20:05:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 17:41:12 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:37:26 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ char	*ft_strjoin_env(char *s1, char *s2)
 	return (join_string);
 }
 
-char	*get_home(t_env *env)
+char	*get_key(char *s, t_env *env)
 {
 	while (env)
 	{
-		if (!(ft_strcmp("HOME", env->key)))
+		if (!(ft_strcmp(s, env->key)))
 			return (env->value);
 		env = env->next;
 	}
