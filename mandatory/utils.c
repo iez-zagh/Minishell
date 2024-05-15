@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 15:06:53 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:24:17 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	excute_cmd(t_parse *st)
 {
 	int	pid;
 
+	list2array(st->env, st);
 	pid = fork();
 	if (pid == 0)
 		execve(st->com_path, st->com_arr, st->env2); //protection

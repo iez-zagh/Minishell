@@ -1,0 +1,14 @@
+total 496
+-rw-r--r--   1 iez-zagh  candidate      0 May 15 18:07 -l
+-rw-r--r--   1 iez-zagh  candidate    781 May 15 16:45 Makefile
+-rwxr-xr-x   1 iez-zagh  candidate  49424 May  6 18:47 a.out
+-rwxr-xr-x   1 iez-zagh  candidate     36 May 10 18:11 f.sh
+-rw-r--r--   1 iez-zagh  candidate      0 May 15 18:07 ls
+drwxr-xr-x  15 iez-zagh  candidate    510 May 15 18:04 mandatory
+-rwxr-xr-x   1 iez-zagh  candidate  74536 May  6 18:47 mini
+-rwxr-xr-x   1 iez-zagh  candidate  56744 May 15 18:04 minishell
+-rwxr-xr-x   1 iez-zagh  candidate  49424 May  8 16:07 minishell_bonus
+-rw-r--r--   1 iez-zagh  candidate      0 May 15 18:08 out
+-rw-r--r--   1 iez-zagh  candidate      0 May 15 15:05 out1
+-rw-r--r--   1 iez-zagh  candidate     88 May 15 15:05 out2
+-rw-r--r--   1 iez-zagh  candidate      0 May 15 15:05 out3

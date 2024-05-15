@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 15:04:33 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 18:40:32 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,20 +95,20 @@ void	empty_env(char **env, t_parse *st)
 
 int	checking_cmd2(t_parse *st)
 {
-	if (ft_strncmp(st->com_arr[0], "cd", 2) == 0)
-	{
-		change_directory(st);
-		return (1);
-	}
 	if (!ft_strcmp(st->com_arr[0], ".."))
 	{
 		printf("%s: command not found\n",st->com_arr[0]);
 		return (1);
 	}
+	if (ft_strncmp(st->com_arr[0], "cd", 2) == 0)
+	{
+		change_directory(st);
+		return (1);
+	}
 	if (!ft_strcmp(st->com_arr[0], "export"))
 	{
-		
-		return (1);          
+		export_cmd(st);
+		return (1);
 	}
 	return (0);
 }

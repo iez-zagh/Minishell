@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 11:14:32 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 16:41:17 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,8 @@ void	empty_env(char **env, t_parse *st);
 int		checking_cmd2(t_parse *st);
 char	*get_home(t_env *env);
 char	*ft_copy(const char *s);
+void	export_cmd(t_parse *st);
+void    add_key(char *env, char *value, t_parse *st);
+void	search_and_replace(char *env, char *value, t_parse *st);
 
 #endif

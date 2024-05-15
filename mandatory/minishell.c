@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 10:17:31 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/15 21:00:40 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,8 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	st->path = getenv("PATH");
 	if (!env[0])
 		empty_env(env, st);
-	st->paths_array = ft_split(st->path, ':');
 	st->env = NULL;
 	set_env(&st->env, env);
-	// int i=0;
-	// t_rnv *tmp = st->env;
-	// while (st->env)
-	// {
-	// 	printf("")
-	// }
-	list2array(st->env, st);
 	wait_prompt(st);
 }
 
@@ -83,9 +75,10 @@ void wait_prompt(t_parse *st)
 		add_history(st->arr);
 		if (checking_cmd(st))
 			continue ;
+		st->paths_array = ft_split(st->path, ':');
 		st->com_path = get_acc_path(st->paths_array, st->com_arr[0]);
 		if (!st->com_path)
-			printf("%s :command not found\n", st->arr);
+			printf("%s :command not found\n", st->com_arr[0]);
 		else
 			excute_cmd(st);
 		ft_free(st->com_arr);
