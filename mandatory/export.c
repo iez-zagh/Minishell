@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/16 11:53:33 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:56:26 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,20 @@ void	add_key(char *key, char *value, t_parse **st) //pass the head  of the list
 	if (!new_key->key || !new_key->value)
 		return ;
 	last_var((*st)->env)->next = new_key;
+}
+
+char	*get_pwd(t_parse *st)
+{
+	char	*pwd;
+
+	pwd = malloc (1024);
+	if (!pwd)
+		return (NULL);
+	if (!(getcwd(pwd, 1024)))
+	{
+		printf("getcwd() error\n");
+		freeing(st);
+		exit (1);
+	}
+	return (pwd);
 }

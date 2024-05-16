@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/16 11:49:33 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:45:46 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,10 @@ void	empty_env(char **env, t_parse *st)
 	char	*pwd;
 	
 	pwd = malloc (1024);
+	int i = 0;
+	while (pwd[i])
+		printf("[[%c]]\n", pwd[i++]);
+	exit (0);
 	env[0] = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin";
 	st->path = "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin";
 	if (getcwd(pwd, 1024))
@@ -106,7 +110,7 @@ int	checking_cmd2(t_parse *st)
 		return (1);
 	}
 	if (!ft_strcmp(st->com_arr[0], "export"))
-	{
+	{	
 		export_cmd(st);
 		return (1);
 	}

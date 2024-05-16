@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/16 11:54:57 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:56:50 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,12 @@ void change_directory(t_parse *st)
 		}
 	}
 	if (chdir(st->com_arr[1]) == -1)
-		printf("cd: no such file or directory: %s\n", st->com_arr[1]);
+	{
+		printf("cd: no such file or directory: %s\n", st->com_arr[1]);	
+		return ;
+	}
 	else
-		
+		search_and_replace("PWD", get_pwd(st), &st);
 }
 
 void	excute_file(t_parse *st)
