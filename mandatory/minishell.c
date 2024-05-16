@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/15 21:38:46 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/16 11:25:34 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ void wait_prompt(t_parse *st)
 {
 	while (1)
 	{
-		st->path = get_key("PATH", st->env); //handle empty path or else
 		signal(SIGTERM, (void *)signal_handler);
+		st->path = get_key("PATH", st->env); //handle empty path or else
 		st->arr = readline("Shellantics-1.0$ ");
 		if (!st->arr)
 			error(st, 3);
