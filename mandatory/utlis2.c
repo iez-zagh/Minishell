@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/16 11:28:44 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:11:59 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ int	checking_cmd(t_parse *st)
 	if (st->arr[0] == '.' && st->arr[1] == '/')
 	{
 		excute_file(st);
+		ft_free2(st);
 		return (1);
 	}
 	if (!ft_strcmp("env", st->com_arr[0]))
 	{
 		if (env_cmd(st))
+		{
+			ft_free2(st);
 			return (1);
+		}
 	}
 	if (checking_cmd2(st))
 		return (1);

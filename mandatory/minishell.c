@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/16 11:25:34 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:28:28 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 {
 	t_parse *st;	
 
-	// atexit(leaks);
+	atexit(leaks);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
@@ -54,12 +54,13 @@ void signal_handler(int signum, t_parse *st)
 {
 	if (signum == SIGINT)
 	{
+		puts("hello there\n");
 		printf("\n");
 		wait_prompt(st);
 	}
 	else if (signum == SIGQUIT)
 	{
-		free(st->paths_array);
+		freeing(st);
 		exit(0);
 	}
 }
@@ -69,7 +70,7 @@ void wait_prompt(t_parse *st)
 	while (1)
 	{
 		signal(SIGTERM, (void *)signal_handler);
-		st->path = get_key("PATH", st->env); //handle empty path or else
+		st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
 		st->arr = readline("Shellantics-1.0$ ");
 		if (!st->arr)
 			error(st, 3);
