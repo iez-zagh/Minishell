@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/17 11:28:28 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/17 17:51:45 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	st->env = NULL;
 	set_env(&st->env, env);
 	list2array(st->env, st);
+	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
+	st->paths_array = ft_split(st->path, ':');
 	wait_prompt(st);
 }
 
@@ -70,21 +72,17 @@ void wait_prompt(t_parse *st)
 	while (1)
 	{
 		signal(SIGTERM, (void *)signal_handler);
-		st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
 		st->arr = readline("Shellantics-1.0$ ");
 		if (!st->arr)
 			error(st, 3);
 		add_history(st->arr);
 		if (checking_cmd(st))
 			continue ;
-		st->paths_array = ft_split(st->path, ':');
 		st->com_path = get_acc_path(st->paths_array, st->com_arr[0]);
 		if (!st->com_path)
 			printf("%s :command not found\n", st->com_arr[0]);
 		else
 			excute_cmd(st);
-		ft_free(st->com_arr);
-		free(st->arr);
-		free(st->com_path);
-	}
+		freeing2(st);
+	}	
 }

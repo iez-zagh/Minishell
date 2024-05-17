@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/17 10:11:02 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:02:28 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void	export_cmd(t_parse *st)
 	search_and_replace(res[0], res[1], &st);
 	ft_free(st->env2);
 	list2array(st->env, st);
+	// free(st->path);
+	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
+	// ft_free(st->paths_array);
+	st->paths_array = ft_split(st->path, ':');
 }
 
 void	search_and_replace(char *env, char *value, t_parse **st)
