@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 15:15:11 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 19:57:08 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct t_parse
 	char			*path;
 	char			*com_path;
 	char			**env2;
+	char			**sorted_env;
 	t_env			*env;
 	int				exit_status;
 }		t_parse;
@@ -92,7 +93,7 @@ char	*ft_substr(const char *s, int start, int end);
 int		env_cmd(t_parse	*st);
 int		lstcounter(t_env	*env);
 char	*ft_strjoin_env(char *s1, char *s2);
-void	list2array(t_env *env, t_parse *st);
+char	**list2array(t_env *env, t_parse *st);
 void	free_list(t_env *env);
 void	empty_env(char **env, t_parse *st);
 int		checking_cmd2(t_parse *st);
@@ -107,5 +108,8 @@ t_env	*before_last_node(t_env *env);
 void	ft_free2(t_parse *st);
 void	freeing2(t_parse *st);
 void	change_dir(t_parse *st, char *s);
+void	sort_env(char **env);
+void	ft_swap(char **a, char **b);
+void	just_export(t_parse *st);
 
 #endif

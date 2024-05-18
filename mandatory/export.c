@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 15:52:05 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:13:32 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,15 @@ void	export_cmd(t_parse *st)
 	char	**res;
 
 	if (count_args(st->com_arr) == 1) //handle the "export" yooo i am here
+	{
+		just_export(st);
 		return ;
+	}
 	res = ft_split(st->com_arr[1], '=');
 	search_and_replace(res[0], res[1], &st, 0);
 	free (res);
 	ft_free(st->env2);
-	list2array(st->env, st);
+	st->env2= list2array(st->env, st);
 	free(st->path);
 	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
 	ft_free(st->paths_array);

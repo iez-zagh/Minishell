@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 10:55:45 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 20:16:50 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 		empty_env(env, st);
 	else
 	{
-		
-	st->env = NULL;
-	set_env(&st->env, env);
-	list2array(st->env, st);
-	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
-	st->paths_array = ft_split(st->path, ':');
-	wait_prompt(st);
+		st->env = NULL;
+		set_env(&st->env, env);
+		st->sorted_env = list2array(st->env, st);
+		sort_env(st->sorted_env);
+		st->env2 = list2array(st->env, st);
+		st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
+		st->paths_array = ft_split(st->path, ':');
+		wait_prompt(st);
 	}
 }
 
