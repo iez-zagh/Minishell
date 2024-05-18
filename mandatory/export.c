@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/17 20:02:28 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:10:13 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ void	export_cmd(t_parse *st)
 {
 	char	**res;
 
-	if (count_args(st->com_arr) == 1) //handle the "export"
+	if (count_args(st->com_arr) == 1) //handle the "export" yooo i am here
 		return ;
 	res = ft_split(st->com_arr[1], '=');
-	search_and_replace(res[0], res[1], &st);
+	search_and_replace(res[0], res[1], &st, 0);
 	ft_free(st->env2);
 	list2array(st->env, st);
-	// free(st->path);
+	free(st->path);
 	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
-	// ft_free(st->paths_array);
+	ft_free(st->paths_array);
 	st->paths_array = ft_split(st->path, ':');
 }
 
-void	search_and_replace(char *env, char *value, t_parse **st)
+void	search_and_replace(char *env, char *value, t_parse **st, int flag)
 {
 	t_env	*tmp;
 
@@ -38,6 +38,8 @@ void	search_and_replace(char *env, char *value, t_parse **st)
 		if (!ft_strcmp(tmp->key, env))
 		{
 			free (tmp->value);
+			if (!flag)
+				free (env);
 			tmp->value = value;
 			return ;
 		}

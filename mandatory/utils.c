@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/17 17:57:33 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 13:28:10 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,25 @@ void	excute_cmd(t_parse *st)
 void change_directory(t_parse *st)
 {
 	struct stat the_path;
-	char		*home;
+	char	*home;
 
 	if (count_args(st->com_arr) == 1)
 	{
 		home = get_key("HOME", st->env);
-		st->com_arr[1] = home;
-	}
-	stat(st->com_arr[1], &the_path);
-	if (!S_ISDIR(the_path.st_mode))
-	{
-		if (access(st->com_arr[1], F_OK) != -1)
+		if (!home)
 		{
-			printf("cd: not a directory: %s\n", st->com_arr[1]);
+			printf("Shellantics: cd: HOME not set\n");
 			return ;
 		}
+		st->com_arr[1] = malloc (sizeof(char *));
+		st->com_arr[1] = ft_copy(home);
+		st->com_arr[2] = NULL;
+	}
+	stat(st->com_arr[1], &the_path);
+	if (!S_ISDIR(the_path.st_mode) && access(st->com_arr[1], F_OK) != -1)
+	{
+			printf("cd: not a directory: %s\n", st->com_arr[1]);
+			return ;
 	}
 	if (chdir(st->com_arr[1]) == -1)
 	{
