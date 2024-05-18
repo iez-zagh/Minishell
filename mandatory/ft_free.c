@@ -3,7 +3,7 @@
 void	ft_free2(t_parse *st)
 {
 	free(st->arr);
-	// ft_free(st->com_arr);
+	ft_free(st->com_arr);
 }
 
 void	free_list(t_env *env)
@@ -52,4 +52,15 @@ void	ft_free(char **s)
 	while (s[i])
 		free (s[i++]);
 	free (s);
+}
+
+void	sort_list(t_env **env)
+{
+	t_env	*tmp;
+
+	tmp = *env;
+	while (*env)
+	{
+		
+	}
 }

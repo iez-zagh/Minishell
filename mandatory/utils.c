@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 13:28:10 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:22:11 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	excute_cmd(t_parse *st)
 
 void change_directory(t_parse *st)
 {
-	struct stat the_path;
 	char	*home;
 
 	if (count_args(st->com_arr) == 1)
@@ -36,25 +35,13 @@ void change_directory(t_parse *st)
 		if (!home)
 		{
 			printf("Shellantics: cd: HOME not set\n");
+			// ft_free(st->com_arr);
 			return ;
 		}
-		st->com_arr[1] = malloc (sizeof(char *));
-		st->com_arr[1] = ft_copy(home);
-		st->com_arr[2] = NULL;
-	}
-	stat(st->com_arr[1], &the_path);
-	if (!S_ISDIR(the_path.st_mode) && access(st->com_arr[1], F_OK) != -1)
-	{
-			printf("cd: not a directory: %s\n", st->com_arr[1]);
-			return ;
-	}
-	if (chdir(st->com_arr[1]) == -1)
-	{
-		printf("cd: no such file or directory: %s\n", st->com_arr[1]);	
+		change_dir(st, home);
 		return ;
 	}
-	else
-		change_pwd_value(st);
+	change_dir(st, st->com_arr[1]);
 }
 
 void	excute_file(t_parse *st)

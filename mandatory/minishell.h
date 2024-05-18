@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 11:09:13 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/18 15:15:11 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ void	change_pwd_value(t_parse *st);
 t_env	*before_last_node(t_env *env);
 void	ft_free2(t_parse *st);
 void	freeing2(t_parse *st);
+void	change_dir(t_parse *st, char *s);
 
 #endif
