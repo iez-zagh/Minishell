@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 16:36:43 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/19 19:43:13 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ typedef struct t_parse
 	char			*path;
 	char			*com_path;
 	char			**env2;
-	char			**sorted_env;
+	t_env			*sorted_env;
 	t_env			*env;
 	int				exit_status;
 }		t_parse;
@@ -112,5 +112,8 @@ void	sort_env(t_env *env);
 void	ft_swap2(char **a, char **b);
 void	just_export(t_parse *st);
 void	ft_swap(t_env **a, t_env **b);
+// int		count_list(t_env *env);
+// void	add_node(t_env **env, t_env *new);
+void	copy_env(t_parse *st);
 
 #endif

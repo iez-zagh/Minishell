@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 12:35:31 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/13 12:35:38 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/19 20:19:26 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	add_var(t_env **env_vars, t_env *new)
 	if (!*env_vars)
 		*env_vars = new;
 	else
+	{
 		last_var(*env_vars)->next = new;
+		printf("%s\n",(*env_vars)->key);
+	}
 }
 
 void	set_env(t_env **env_vars, char **env)
