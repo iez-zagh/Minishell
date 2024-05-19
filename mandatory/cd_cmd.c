@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 20:17:43 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/19 21:52:24 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,12 @@ void	copy_env(t_parse *st)
 	st->sorted_env = NULL;
 	while (st->env)
 	{
-		new = malloc (sizeof(t_env));
+		new = malloc (sizeof(t_env)); // remember to check the pointer address
 		if (new)
 			return ;// handle the malloc failure
 		new->key = ft_copy(st->env->key);
 		new->value = ft_copy(st->env->value);
+		new->next = NULL;
 		add_var(&st->sorted_env, new);
 		st->env = st->env->next;
 	}
