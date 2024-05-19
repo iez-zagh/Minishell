@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 20:26:36 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:36:03 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,35 +42,43 @@
 // 		i++;
 // 	}
 // }
-void sort_env(char **env)
+
+void sort_env(t_env *env)
 {
-    int sorted;
-    int i;
+	int	sorted;
+	int	i;
 
-    if (env == NULL)
-        return;
-
-    do {
-        sorted = 1;
-        for (i = 0; env[i + 1] != NULL; i++)
-        {
-            if (ft_strcmp(env[i], env[i + 1]) > 0)
-            {
-                ft_swap(&env[i], &env[i + 1]);
-                sorted = 0;
-            }
-        }
-    } while (!sorted);
+	if (env == NULL)
+		return;
+	sorted = 0;
+	i = 0;
+	while (!sorted)
+	{
+		sorted = 1;
+		while (env->key[i + 1])
+		{
+			if (ft_strcmp(env->key[i], env->key[i + 1]) > 0)
+			{
+				ft_swap(&env, &env);
+				sorted = 0;
+			}
+		}
+	}
 }
 
-
-void	ft_swap(char **a, char **b)
+void	ft_swap2(char **a, char **b)
 {
 	char	*c;
 
 	c = *a;
 	*a = *b;
 	*b = c;
+}
+
+void	ft_swap(t_env **a, t_env **b)
+{
+	ft_swap((*a)->key, (*b)->key);
+	ft_swap((*a)->value, (*b)->value);
 }
 
 void	just_export(t_parse *st)

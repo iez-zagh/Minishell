@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 19:57:08 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/19 16:36:43 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,9 @@ t_env	*before_last_node(t_env *env);
 void	ft_free2(t_parse *st);
 void	freeing2(t_parse *st);
 void	change_dir(t_parse *st, char *s);
-void	sort_env(char **env);
-void	ft_swap(char **a, char **b);
+void	sort_env(t_env *env);
+void	ft_swap2(char **a, char **b);
 void	just_export(t_parse *st);
+void	ft_swap(t_env **a, t_env **b);
 
 #endif
