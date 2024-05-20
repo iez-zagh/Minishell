@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 21:52:24 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:07:31 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,44 +25,48 @@
 	return (env);
 }
 
-// void	sort_env(char **env)
-// {
-// 	char	**tmp;
-// 	int		i;
-
-// 	i = 0;
-// 	tmp = env;
-// 	while (tmp[i])
-// 	{
-// 		if (ft_strcmp(tmp[i], tmp[i + 1]) > 0)
-// 		{
-// 			ft_swap(&tmp[i], &tmp[i + 1]);
-// 			tmp = env;
-// 		}
-// 		i++;
-// 	}
-// }
-
-void sort_env(t_env *env)
+void	sort_env(char **env)
 {
-	int	sorted;
+	int		i;
 
-	if (env == NULL)
-		return;
-	sorted = 0;
-	while (!sorted)
+	i = 0;
+	while (env[i])
 	{
-		sorted = 1;
-		while (env)
+		if (ft_strcmp(env[i], env[i + 1]) > 0)
 		{
-			if (ft_strcmp(env->key, env->key) > 0)
-			{
-				ft_swap(&env, &env);
-				sorted = 0;
-			}
+			ft_swap2(&env[i], &env[i + 1]);
+			i = -1;
 		}
+		i++;
 	}
 }
+
+// void sort_env(t_env *env)
+// {
+// 	t_env	*tmp;
+// 	t_env	**head;
+// 	int		sorted;
+
+// 	if (env == NULL)
+// 		return;
+// 	sorted = 0;
+// 	tmp = env;
+// 	head = &env;
+// 	while (!sorted)
+// 	{
+// 		sorted = 1;
+// 		tmp = *head;
+// 		while (tmp->next)
+// 		{
+// 			if (ft_strcmp(tmp->key, tmp->next->key) > 0)
+// 			{
+// 				ft_swap(&tmp, &tmp->next);
+// 				sorted = 0;
+// 			}
+// 			tmp = tmp->next;
+// 		}
+// 	}
+// }
 
 void	ft_swap2(char **a, char **b)
 {
@@ -75,8 +79,13 @@ void	ft_swap2(char **a, char **b)
  
 void	ft_swap(t_env **a, t_env **b)
 {
-	ft_swap2(&(*a)->key, &(*b)->key);
-	ft_swap2(&(*a)->value, &(*b)->value);
+  t_env *temp = *a;
+    *a = (*a)->next;
+    temp->next = (*a)->next;
+    (*a)->next = temp;
+    *b = *a;
+	// ft_swap2(&(*a)->key, &(*b)->key);
+	// ft_swap2(&(*a)->value, &(*b)->value);
 }
 
 void	just_export(t_parse *st) //handle the linked list
@@ -87,42 +96,3 @@ void	just_export(t_parse *st) //handle the linked list
 		st->sorted_env = st->sorted_env->next;
 	}
 }
-
-void	copy_env(t_parse *st)
-{
-	t_env	*new;
-
-	st->sorted_env = NULL;
-	while (st->env)
-	{
-		new = malloc (sizeof(t_env)); // remember to check the pointer address
-		if (new)
-			return ;// handle the malloc failure
-		new->key = ft_copy(st->env->key);
-		new->value = ft_copy(st->env->value);
-		new->next = NULL;
-		add_var(&st->sorted_env, new);
-		st->env = st->env->next;
-	}
-}
-
-// void	add_node(t_env **env, t_env *new)
-// {
-// 	if (count_list(*env) == 1)
-// 		return ;
-// 	(*env)->next = new;
-// 	new->next = NULL;
-// }
-
-// int	count_list(t_env *env) //maybe i'll need it some time
-// {
-// 	int	counter;
-
-// 	counter = 0;
-// 	while (env)
-// 	{
-// 		counter++;
-// 		env = env->next;
-// 	}
-// 	return (counter);
-// }

@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 19:43:13 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:03:01 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct t_parse
 	char			*path;
 	char			*com_path;
 	char			**env2;
+	char			**env3;
 	t_env			*sorted_env;
 	t_env			*env;
 	int				exit_status;
@@ -86,7 +87,7 @@ void	freeing(t_parse *st);
 size_t	ft_atol(char *s, t_parse *st);
 void	ft_exit(t_parse *st, int args_n);
 int		checking_cmd(t_parse *st);
-void	set_env(t_env **env_vars, char **env);
+t_env	*set_env(char **env);
 void	add_var(t_env **env_vars, t_env *new);
 t_env	*last_var(t_env *env_vars);
 char	*ft_substr(const char *s, int start, int end);
@@ -108,12 +109,11 @@ t_env	*before_last_node(t_env *env);
 void	ft_free2(t_parse *st);
 void	freeing2(t_parse *st);
 void	change_dir(t_parse *st, char *s);
-void	sort_env(t_env *env);
+void	sort_env(char **env);
 void	ft_swap2(char **a, char **b);
 void	just_export(t_parse *st);
 void	ft_swap(t_env **a, t_env **b);
 // int		count_list(t_env *env);
 // void	add_node(t_env **env, t_env *new);
-void	copy_env(t_parse *st);
 
 #endif

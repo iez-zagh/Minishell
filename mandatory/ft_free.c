@@ -24,6 +24,7 @@ void	freeing(t_parse *st)
 {
 	free(st->path);
 	free_list(st->env);
+	free_list(st->sorted_env);
 	if (st->com_arr)
 		ft_free(st->com_arr);
 	if (st->paths_array)

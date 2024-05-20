@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 12:35:31 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 21:51:44 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/20 14:32:28 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,17 @@ void	add_var(t_env **env_vars, t_env *new)
 	}
 }
 
-void	set_env(t_env **env_vars, char **env)
+t_env	*set_env(char **env)
 {
 	t_env	*new_var;
+	t_env	*var;
 	int		start;
 	int		end;
 	int		i;
 	int		j;
 
 	i = 0;
+	var = NULL;
 	while(env[i])
 	{
 		j = 0;
@@ -52,9 +54,10 @@ void	set_env(t_env **env_vars, char **env)
 		new_var->key = ft_substr(env[i], 0, j);
 		new_var->value = ft_substr(env[i], start, end - start);
 		new_var->next = NULL;
-		add_var(env_vars, new_var);
+		add_var(&var, new_var);
 		i++;
 	}
+	return (var);
 }
 
 char	*ft_substr(const char *s, int start, int end)

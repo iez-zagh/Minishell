@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 19:54:59 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/20 17:04:55 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 		empty_env(env, st);
 	else
 	{
-		st->env = NULL;
-		set_env(&st->env, env);
+		st->env = set_env(env);
+		st->sorted_env = set_env(env);// the ctrl+c status=130 remember
 		st->env2 = list2array(st->env, st);
-		copy_env(st);
-		// sort_env(st->sorted_env);
+		st->env3 = list2array(st->sorted_env, st);
+		// sort_env(st->env3);
 		st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
 		st->paths_array = ft_split(st->path, ':');
 		wait_prompt(st);
