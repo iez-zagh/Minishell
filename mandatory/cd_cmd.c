@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/20 17:07:31 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:54:31 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@
 	return (env);
 }
 
-void	sort_env(char **env)
-{
-	int		i;
+// void	sort_env(char **env)
+// {
+// 	int		i;
 
-	i = 0;
-	while (env[i])
-	{
-		if (ft_strcmp(env[i], env[i + 1]) > 0)
-		{
-			ft_swap2(&env[i], &env[i + 1]);
-			i = -1;
-		}
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		if (ft_strcmp(env[i], env[i + 1]) > 0)
+// 		{
+// 			ft_swap2(&env[i], &env[i + 1]);
+// 			i = -1;
+// 		}
+// 		i++;
+// 	}
+// }
 
 // void sort_env(t_env *env)
 // {
@@ -67,6 +67,37 @@ void	sort_env(char **env)
 // 		}
 // 	}
 // }
+// Function to swap the contents of two nodes
+void ft_swap(t_env *a, t_env *b) {
+    char *temp_key = a->key;
+    char *temp_value = a->value;
+    a->key = b->key;
+    a->value = b->value;
+    b->key = temp_key;
+    b->value = temp_value;
+}
+
+void sort_env(t_env *env) {
+    t_env *tmp;
+    int sorted;
+
+    if (env == NULL) {
+        return;
+    }
+
+    sorted = 0;
+    while (!sorted) {
+        sorted = 1;
+        tmp = env;
+        while (tmp->next) {
+            if (ft_strcmp(tmp->key, tmp->next->key) > 0) {
+                ft_swap(tmp, tmp->next);
+                sorted = 0;
+            }
+            tmp = tmp->next;
+        }
+    }
+}
 
 void	ft_swap2(char **a, char **b)
 {
@@ -77,16 +108,16 @@ void	ft_swap2(char **a, char **b)
 	*b = c;
 }
  
-void	ft_swap(t_env **a, t_env **b)
-{
-  t_env *temp = *a;
-    *a = (*a)->next;
-    temp->next = (*a)->next;
-    (*a)->next = temp;
-    *b = *a;
-	// ft_swap2(&(*a)->key, &(*b)->key);
-	// ft_swap2(&(*a)->value, &(*b)->value);
-}
+// void	ft_swap(t_env **a, t_env **b)
+// {
+//   t_env *temp = *a;
+//     *a = (*a)->next;
+//     temp->next = (*a)->next;
+//     (*a)->next = temp;
+//     *b = *a;
+// 	// ft_swap2(&(*a)->key, &(*b)->key);
+// 	// ft_swap2(&(*a)->value, &(*b)->value);
+// }
 
 void	just_export(t_parse *st) //handle the linked list
 {
