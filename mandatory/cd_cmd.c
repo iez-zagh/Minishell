@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/21 12:00:57 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:44:22 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	change_pwd_value(t_parse *st)
 {
-	search_and_replace("OLDPWD", ft_copy(get_key("PWD", st->env)), &st, 1);
-	search_and_replace("PWD", get_pwd(st), &st, 1);
+	search_and_replace("OLDPWD", ft_copy(get_key("PWD", st->env)), &(st->env), 1);
+	search_and_replace("PWD", get_pwd(st), &(st->env), 1);
 }
 
 t_env	*before_last_node(t_env *env)
@@ -69,10 +69,7 @@ void	just_export(t_parse *st)
 	tmp = st->sorted_env;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->key, tmp->value);
+		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
 		tmp = tmp->next;
 	}
 }
-
-
-

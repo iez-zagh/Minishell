@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/19 20:15:56 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/21 21:48:53 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	export_cmd(t_parse *st)
 		return ;
 	}
 	res = ft_split(st->com_arr[1], '=');
-	search_and_replace(res[0], res[1], &st, 0);
+	search_and_replace(res[0], res[1], &(st->env), 0);
+	search_and_replace(ft_copy(res[0]), ft_copy(res[1]), &(st->sorted_env), 0);
 	free (res);
 	ft_free(st->env2);
 	st->env2= list2array(st->env, st);
@@ -32,11 +33,11 @@ void	export_cmd(t_parse *st)
 	st->paths_array = ft_split(st->path, ':');
 }
 
-void	search_and_replace(char *env, char *value, t_parse **st, int flag)
+void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 {
 	t_env	*tmp;
 
-	tmp = (*st)->env;
+	tmp = *envi;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, env))
@@ -49,10 +50,10 @@ void	search_and_replace(char *env, char *value, t_parse **st, int flag)
 		}
 		tmp = tmp->next;
 	}
-	add_key(env, value, st);
+	add_key(env, value, envi);
 }
 
-void	add_key(char *key, char *value, t_parse **st) //pass the head  of the list
+void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
 {
 	t_env	*new_key;
 
@@ -64,7 +65,7 @@ void	add_key(char *key, char *value, t_parse **st) //pass the head  of the list
 	new_key->value = value;
 	if (!new_key->key || !new_key->value)
 		return ;
-	last_var((*st)->env)->next = new_key;
+	last_var((*env))->next = new_key;
 }
 
 char	*get_pwd(t_parse *st)
