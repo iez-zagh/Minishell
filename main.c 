@@ -1,0 +1,9 @@
+#include <stdio.h>
+int main()
+{
+    char    *s;
+    printf("hello my name is imad , what about you ?\n");
+    scanf("%s", &s);
+    printf("nice to meet you %s", s);
+    return (0);
+}
