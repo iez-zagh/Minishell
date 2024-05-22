@@ -21,7 +21,7 @@ M_OBJECTS = ${M_SOURCES:.c=.o}
 all : $(NAME)
 
 $(NAME) : $(M_OBJECTS)
-	@$(CC) $(M_OBJECTS) -lreadline  $(N) -o $(NAME)
+	@$(CC) $(M_OBJECTS) -lreadline   -o $(NAME)
 	@echo "$(GREEN_TEXT)[the executable created successfully]$(RESET_TEXT)"
 
 clean :

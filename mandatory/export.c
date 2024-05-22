@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/22 11:40:19 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:29:22 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,12 @@ void	export_cmd(t_parse *st)
 		just_export(st);
 		return ;
 	}
-	res = ft_split(st->com_arr[1], '=');
+	if (count_args(st->com_arr) > 2)
+		return ;
 	check_join(st);
+	res = ft_split(st->com_arr [1], '=');
+	if (st->export_f)
+		ft_join(res,st);
 	search_and_replace(ft_copy(res[0]), ft_copy(res[1]), &(st->sorted_env), 0);
 	search_and_replace(res[0], res[1], &(st->env), 0);
 	free (res);
@@ -44,9 +48,9 @@ void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 	{
 		if (!ft_strcmp(tmp->key, env))
 		{
-			free (tmp->value);
 			if (!flag)
 				free (env);
+			free (tmp->value);
 			tmp->value = value;
 			return ;
 		}
@@ -86,7 +90,45 @@ char	*get_pwd(t_parse *st)
 	return (pwd);
 }
 
-void	(t_parse *st)
+void	check_join(t_parse *st)
 {
-	
+	int	i;
+
+	i = 0;
+	st->export_f = 0;
+	while (st->com_arr[1][i])
+	{
+		if (st->com_arr[1][i] == '=')
+			if (st->com_arr[1][i - 1] == '+')
+			{
+				st->export_f = 1;
+				ft_join_value(st);
+			}
+		i++;
+	}
+}
+
+void	ft_join_value(t_parse *st)
+{
+	int		i;
+	int		j;
+	char	*res;
+
+	i = 0;
+	j = 0;
+	res = malloc (ft_strlen(st->com_arr[1]));
+	if (!res)
+		error(st, 2); //more portection
+	while (st->com_arr[1][i])
+	{
+		if (st->com_arr[1][i] == '+')
+		{
+			i++;
+			continue;
+		}
+		res[j++] = st->com_arr[1][i++];
+	}
+	res[j] = '\0';
+	free(st->com_arr[1]);
+	st->com_arr[1] = res;
 }

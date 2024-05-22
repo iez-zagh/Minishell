@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/22 11:04:02 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/22 16:16:52 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 {
 	t_parse *st;
 
-	// atexit(leaks);
+	atexit(leaks);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
@@ -89,4 +89,17 @@ void wait_prompt(t_parse *st)
 			excute_cmd(st);
 		freeing2(st);
 	}	
+}
+
+void	ft_join(char **res, t_parse *st)
+{
+	char	*res1;
+	char	*res2;
+
+	res1 = get_key(res[0], st->env);
+	if (!res1)
+		return ;
+	res2 = ft_strjoin(res1, res[1]);
+	free (res[1]);
+	res[1] = res2;
 }
