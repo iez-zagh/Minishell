@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/21 21:48:53 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:40:19 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ void	export_cmd(t_parse *st)
 		return ;
 	}
 	res = ft_split(st->com_arr[1], '=');
-	search_and_replace(res[0], res[1], &(st->env), 0);
+	check_join(st);
 	search_and_replace(ft_copy(res[0]), ft_copy(res[1]), &(st->sorted_env), 0);
+	search_and_replace(res[0], res[1], &(st->env), 0);
 	free (res);
 	ft_free(st->env2);
 	st->env2= list2array(st->env, st);
@@ -38,6 +39,7 @@ void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 	t_env	*tmp;
 
 	tmp = *envi;
+
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, env))
@@ -59,12 +61,12 @@ void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
 
 	new_key = malloc (sizeof(t_env));
 	if (!new_key)
-		return ;//more protection nega
-	new_key->next = NULL;
+		return ;//more protection nega for this
 	new_key->key = key;
 	new_key->value = value;
-	if (!new_key->key || !new_key->value)
-		return ;
+	new_key->next = NULL;
+	// if (!new_key->key || !new_key->value)
+	// 	return ; //still thinking about this
 	last_var((*env))->next = new_key;
 }
 
@@ -82,4 +84,9 @@ char	*get_pwd(t_parse *st)
 		exit (1);
 	}
 	return (pwd);
+}
+
+void	(t_parse *st)
+{
+	
 }

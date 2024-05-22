@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/21 21:45:30 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/22 11:39:01 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct t_parse
 	t_env			*sorted_env;
 	t_env			*env;
 	int				exit_status;
+	int				export_f;
 }		t_parse;
 
 char	*get_acc_path(char **paths, char *com);
