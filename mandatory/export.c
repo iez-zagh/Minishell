@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/23 23:19:10 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/23 23:33:02 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	export_cmd(t_parse *st, char *s)
 	char	**res;
 
 	// check_join(s, st);
-	// printf("%s\n", s);
+	printf("%s\n", s);
 	res = ft_split(s, '=');
 	if (count_args(res) == 1)
 	{
@@ -101,7 +101,8 @@ void	check_join(char *s, t_parse *st)
 			if (s[i - 1] == '+')
 			{
 				st->export_f = 1;
-				s = ft_join_value(s, st);
+				= ft_join_value(s, st);
+				// printf("[%s]\n", s);
 				return ;
 			}
 		i++;
