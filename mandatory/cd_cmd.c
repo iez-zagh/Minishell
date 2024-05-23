@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/21 21:44:22 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/23 23:09:47 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,22 @@ void	just_export(t_parse *st)
 	{
 		printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
 		tmp = tmp->next;
+	}
+}
+
+void	export_cmd1(t_parse *st)
+{
+	int	i;
+
+	if (count_args(st->com_arr) == 1) //handle the "export" yooo i am here
+	{
+		just_export(st);
+		return ;
+	}
+	i = 1;
+	while (st->com_arr[i])
+	{
+		check_join(st->com_arr[i], st);
+		export_cmd(st, st->com_arr[i++]);
 	}
 }

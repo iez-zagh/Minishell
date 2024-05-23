@@ -6,25 +6,24 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/23 10:21:20 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/23 23:19:10 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_cmd(t_parse *st)
+void	export_cmd(t_parse *st, char *s)
 {
 	char	**res;
 
-	if (count_args(st->com_arr) == 1) //handle the "export" yooo i am here
+	// check_join(s, st);
+	// printf("%s\n", s);
+	res = ft_split(s, '=');
+	if (count_args(res) == 1)
 	{
-		just_export(st);
-		return ;
+		search_and_replace(res[0], NULL, &(st->sorted_env), 0);
+		return ;	
 	}
-	if (count_args(st->com_arr) > 2)
-		return ;
-	check_join(st);
-	res = ft_split(st->com_arr [1], '=');
 	if (st->export_f)
 		ft_join(res,st);
 	search_and_replace(ft_copy(res[0]), ft_copy(res[1]), &(st->sorted_env), 0);
@@ -66,7 +65,7 @@ void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
 	new_key = malloc (sizeof(t_env));
 	if (!new_key)
 		return ;//more protection nega for this
-	new_key->key = key;
+	new_key->key = key;	
 	new_key->value = value;
 	new_key->next = NULL;
 	// if (!new_key->key || !new_key->value)
@@ -90,25 +89,26 @@ char	*get_pwd(t_parse *st)
 	return (pwd);
 }
 
-void	check_join(t_parse *st)
+void	check_join(char *s, t_parse *st)
 {
 	int	i;
 
 	i = 0;
 	st->export_f = 0;
-	while (st->com_arr[1][i])
+	while (s[i])
 	{
-		if (st->com_arr[1][i] == '=')
-			if (st->com_arr[1][i - 1] == '+')
+		if (s[i] == '=')
+			if (s[i - 1] == '+')
 			{
 				st->export_f = 1;
-				ft_join_value(st);
+				s = ft_join_value(s, st);
+				return ;
 			}
 		i++;
 	}
 }
 
-void	ft_join_value(t_parse *st)
+char	*ft_join_value(char *s, t_parse *st)
 {
 	int		i;
 	int		j;
@@ -116,19 +116,20 @@ void	ft_join_value(t_parse *st)
 
 	i = 0;
 	j = 0;
-	res = malloc (ft_strlen(st->com_arr[1]));
+	res = malloc (ft_strlen(s));
 	if (!res)
 		error(st, 2); //more portection
-	while (st->com_arr[1][i])
+	while (s[i])
 	{
-		if (st->com_arr[1][i] == '+')
+		if (s[i] == '+')
 		{
 			i++;
 			continue;
 		}
-		res[j++] = st->com_arr[1][i++];
+		res[j++] = s[i++];
 	}
 	res[j] = '\0';
-	free(st->com_arr[1]);
-	st->com_arr[1] = res;
+	free(s);
+	return (res);
+	// s = res;
 }
