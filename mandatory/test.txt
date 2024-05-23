@@ -1,8 +1,0 @@
-typedef struct t_parse
-{
-    char **cmd;
-    char *in;
-    char *out;
-    char *app;
-    struct t_parse *next;
-}   t_parse;
