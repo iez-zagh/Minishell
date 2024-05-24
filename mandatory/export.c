@@ -6,22 +6,25 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/23 23:33:02 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:30:56 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_cmd(t_parse *st, char *s)
+void	export_cmd(t_parse *st, char **s)
 {
 	char	**res;
 
-	// check_join(s, st);
-	printf("%s\n", s);
-	res = ft_split(s, '=');
+	res = ft_split(*s, '=');
 	if (count_args(res) == 1)
 	{
-		search_and_replace(res[0], NULL, &(st->sorted_env), 0);
+		if (ft_strchr(*s, '='))
+		{
+			// free (res[1]);
+			res[1] = ft_copy("");
+		}
+		search_and_replace(res[0], res[1], &(st->sorted_env), 0);
 		return ;	
 	}
 	if (st->export_f)
@@ -89,27 +92,26 @@ char	*get_pwd(t_parse *st)
 	return (pwd);
 }
 
-void	check_join(char *s, t_parse *st)
+void	check_join(char **s, t_parse *st)
 {
 	int	i;
 
 	i = 0;
 	st->export_f = 0;
-	while (s[i])
+	while ((*s)[i])
 	{
-		if (s[i] == '=')
-			if (s[i - 1] == '+')
+		if ((*s)[i] == '=')
+			if ((*s)[i - 1] == '+')
 			{
 				st->export_f = 1;
-				= ft_join_value(s, st);
-				// printf("[%s]\n", s);
+				ft_join_value(s, st);
 				return ;
 			}
 		i++;
 	}
 }
 
-char	*ft_join_value(char *s, t_parse *st)
+void	ft_join_value(char **s, t_parse *st)
 {
 	int		i;
 	int		j;
@@ -117,20 +119,19 @@ char	*ft_join_value(char *s, t_parse *st)
 
 	i = 0;
 	j = 0;
-	res = malloc (ft_strlen(s));
+	res = malloc (ft_strlen(*s));
 	if (!res)
 		error(st, 2); //more portection
-	while (s[i])
+	while ((*s)[i])
 	{
-		if (s[i] == '+')
+		if ((*s)[i] == '+')
 		{
 			i++;
 			continue;
 		}
-		res[j++] = s[i++];
+		res[j++] = (*s)[i++];
 	}
 	res[j] = '\0';
-	free(s);
-	return (res);
-	// s = res;
+	free(*s);
+	*s = res;
 }

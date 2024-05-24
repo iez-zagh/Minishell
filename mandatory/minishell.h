@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/24 20:08:22 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:29:47 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	empty_env(char **env, t_parse *st);
 int		checking_cmd2(t_parse *st);
 char	*get_key(char *s, t_env *env);
 char	*ft_copy(const char *s);
-void	export_cmd(t_parse *st, char *s);
+void	export_cmd(t_parse *st, char **s);
 void	add_key(char *key, char *value, t_env **env);
 void	search_and_replace(char *env, char *value, t_env **envi, int flag);
 char	*get_pwd(t_parse *st);
@@ -113,8 +113,8 @@ void	change_dir(t_parse *st, char *s);
 void	sort_env(t_env *env);
 void	just_export(t_parse *st);
 void	ft_swap(t_env *a, t_env *b);
-void	check_join(char *s, t_parse *st);
-char	*ft_join_value(char *s, t_parse *st);
+void	check_join(char **s, t_parse *st);
+void	ft_join_value(char **s, t_parse *st);
 void	ft_join(char **res, t_parse *st);
 void	export_cmd1(t_parse *st);
 int 	ft_strchr(char *s, char c);
