@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/25 11:58:29 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/25 15:02:27 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,17 @@ void	export_cmd(t_parse *st, char **s)
 		if (ft_strchr(*s, '='))
 		{
 			res[1] = ft_copy("");
-			search_and_replace(res[0], NULL, &(st->env), 0);
+			search_and_replace(ft_copy(res[0]), NULL, &(st->env), 0);
 		}
 		search_and_replace(res[0], res[1], &(st->sorted_env), 0);
+		free_update(res, st);
 		return ;
 	}
 	if (st->export_f)
 		ft_join(res,st);
 	search_and_replace(ft_copy(res[0]), ft_copy(res[1]), &(st->sorted_env), 0);
 	search_and_replace(res[0], res[1], &(st->env), 0);
-	free (res);
-	ft_free(st->env2);
-	st->env2= list2array(st->env, st);
-	free(st->path);
-	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
-	ft_free(st->paths_array);
-	st->paths_array = ft_split(st->path, ':');
+	free_update(res, st);
 }
 
 void	search_and_replace(char *env, char *value, t_env **envi, int flag)
@@ -52,7 +47,8 @@ void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 		{
 			if (!flag)
 				free (env);
-			free (tmp->value);
+			if (tmp->value)
+				free (tmp->value);
 			tmp->value = value;
 			return ;
 		}
@@ -111,48 +107,4 @@ char	*get_pwd(t_parse *st)
 		exit (1);
 	}
 	return (pwd);
-}
-
-void	check_join(char **s, t_parse *st)
-{
-	int	i;
-
-	i = 0;
-	st->export_f = 0;
-	while ((*s)[i])
-	{
-		if ((*s)[i] == '=')
-			if ((*s)[i - 1] == '+')
-			{
-				st->export_f = 1;
-				ft_join_value(s, st);
-				return ;
-			}
-		i++;
-	}
-}
-
-void	ft_join_value(char **s, t_parse *st)
-{
-	int		i;
-	int		j;
-	char	*res;
-
-	i = 0;
-	j = 0;
-	res = malloc (ft_strlen(*s));
-	if (!res)
-		error(st, 2); //more portection
-	while ((*s)[i])
-	{
-		if ((*s)[i] == '+')
-		{
-			i++;
-			continue;
-		}
-		res[j++] = (*s)[i++];
-	}
-	res[j] = '\0';
-	free(*s);
-	*s = res;
 }
