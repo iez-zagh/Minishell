@@ -62,9 +62,36 @@ void	free_update(char **res, t_parse *st)
 {
 	free (res);
 	ft_free(st->env2);
-	st->env2= list2array(st->env, st);
+	st->env2 = list2array(st->env, st);
 	free(st->path);
 	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
 	ft_free(st->paths_array);
 	st->paths_array = ft_split(st->path, ':');
+}
+
+char	**export_checker(char *s)
+{
+	int		i;
+	char	**res;
+
+	i = 0;
+	check_syntax(s);
+	if (!((s[i] >= 'a' && s[i] <= 'z')
+		|| (s[i] >= 'A' && s[i] <= 'Z') || (s[i] == '_')))
+		return (NULL);
+	while (s[i] && s[i] != '=')
+		i++;
+	res = malloc (sizeof(char *) * 2 + 1);
+	res[0] = malloc (i + 1);
+	if (!res || !res[0])
+		return (NULL);//need more protection
+	i = 0;
+	while (s[i] && s[i] != '=')
+	{
+		res[0][i] = s[i];
+		i++;
+	}
+	i++;
+	res[1] = ft_copy(&s[i]);
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/25 15:02:27 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:08:35 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,22 @@
 
 void	export_cmd(t_parse *st, char **s)
 {
-	char	**res;
-
-	res = ft_split(*s, '=');
-	if (count_args(res) == 1)
+	if (count_args(s) == 1)
 	{
 		if (ft_strchr(*s, '='))
 		{
-			res[1] = ft_copy("");
-			search_and_replace(ft_copy(res[0]), NULL, &(st->env), 0);
+			s[1] = ft_copy("");
+			search_and_replace(ft_copy(s[0]), NULL, &(st->env), 0);
 		}
-		search_and_replace(res[0], res[1], &(st->sorted_env), 0);
-		free_update(res, st);
+		search_and_replace(s[0], s[1], &(st->sorted_env), 0);
+		free_update(s, st);
 		return ;
 	}
 	if (st->export_f)
-		ft_join(res,st);
-	search_and_replace(ft_copy(res[0]), ft_copy(res[1]), &(st->sorted_env), 0);
-	search_and_replace(res[0], res[1], &(st->env), 0);
-	free_update(res, st);
+		ft_join(s,st);
+	search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(st->sorted_env), 0);
+	search_and_replace(s[0], s[1], &(st->env), 0);
+	free_update(s, st);
 }
 
 void	search_and_replace(char *env, char *value, t_env **envi, int flag)

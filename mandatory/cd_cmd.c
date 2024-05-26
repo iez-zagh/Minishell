@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/24 20:35:38 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/26 10:18:21 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	just_export(t_parse *st)
 
 void	export_cmd1(t_parse *st)
 {
-	int	i;
+	int		i;
+	char	**res;
 
 	if (count_args(st->com_arr) == 1) //handle the "export" yooo i am here
 	{
@@ -92,6 +93,12 @@ void	export_cmd1(t_parse *st)
 	while (st->com_arr[i])
 	{
 		check_join(&(st->com_arr[i]), st);
-		export_cmd(st, &(st->com_arr[i++]));
+		res = export_checker(st->com_arr[i++]);
+		if (!res)
+		{
+			printf("Shellantics: export: `%s': not a valid identifier\n", st->com_arr[i - 1]);
+			continue ;
+		}
+		export_cmd(st, res);
 	}
 }

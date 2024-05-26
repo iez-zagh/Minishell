@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/25 14:59:40 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/25 16:47:45 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct t_parse
 	t_env			*env;
 	int				exit_status;
 	int				export_f;
+	int				i;
 }		t_parse;
 
 char	*get_acc_path(char **paths, char *com);
@@ -120,5 +121,6 @@ void	export_cmd1(t_parse *st);
 int 	ft_strchr(char *s, char c);
 void	search_and_replace2(char *env, t_env **envi, int flag);
 void	free_update(char **res, t_parse *st);
+char	**export_checker(char *s);
 
 #endif
