@@ -75,10 +75,7 @@ char	**export_checker(char *s)
 	char	**res;
 
 	i = 0;
-	check_syntax(s);
-	if (!((s[i] >= 'a' && s[i] <= 'z')
-		|| (s[i] >= 'A' && s[i] <= 'Z') || (s[i] == '_')))
-		return (NULL);
+
 	while (s[i] && s[i] != '=')
 		i++;
 	res = malloc (sizeof(char *) * 2 + 1);

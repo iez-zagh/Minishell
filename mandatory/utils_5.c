@@ -1,12 +1,16 @@
 #include "minishell.h"
 
-void    check_syntax(char *s)
+int	check_syntax(char *s)
 {
 	int	i;
 
 	i = 0;
-	while (s[i])
-	{
-		
-	}
+	if (!((s[i] >= 'a' && s[i] <= 'z')
+		|| (s[i] >= 'A' && s[i] <= 'Z') || (s[i] == '_')))
+		return (1);
+	// while (s[i])
+	// {
+
+	// }
+	return (0);
 }

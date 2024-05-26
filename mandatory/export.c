@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/26 10:08:35 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/26 11:53:00 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	export_cmd(t_parse *st, char **s)
 			s[1] = ft_copy("");
 			search_and_replace(ft_copy(s[0]), NULL, &(st->env), 0);
 		}
-		search_and_replace(s[0], s[1], &(st->sorted_env), 0);
+		search_and_replace2(s[0], &(st->sorted_env));
 		free_update(s, st);
 		return ;
 	}
@@ -54,7 +54,7 @@ void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 	add_key(env, value, envi);
 }
 
-void	search_and_replace2(char *env, t_env **envi, int flag)
+void	search_and_replace2(char *env, t_env **envi)
 {
 	t_env	*tmp;
 
@@ -63,16 +63,10 @@ void	search_and_replace2(char *env, t_env **envi, int flag)
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, env))
-		{
-			if (!flag)
-				free (env);
-			free (tmp->value);
-			tmp->value = NULL;
 			return ;
-		}
+
 		tmp = tmp->next;
 	}
-	// add_key(env, value, envi);
 }
 
 void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
