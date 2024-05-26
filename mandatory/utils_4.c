@@ -80,6 +80,7 @@ char	**export_checker(char *s)
 		i++;
 	res = malloc (sizeof(char *) * 2 + 1);
 	res[0] = malloc (i + 1);
+	res[1] = NULL;
 	if (!res || !res[0])
 		return (NULL);//need more protection
 	i = 0;
@@ -89,6 +90,7 @@ char	**export_checker(char *s)
 		i++;
 	}
 	i++;
-	res[1] = ft_copy(&s[i]);
+	if (i < (int)ft_strlen(s))
+		res[1] = ft_copy(&s[i]);
 	return (res);
 }

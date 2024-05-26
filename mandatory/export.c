@@ -6,20 +6,21 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/26 11:53:00 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/26 15:53:13 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	export_cmd(t_parse *st, char **s)
+void	export_cmd(t_parse *st, char **s, char *res)
 {
 	if (count_args(s) == 1)
 	{
-		if (ft_strchr(*s, '='))
+		if (ft_strchr(res, '='))
 		{
 			s[1] = ft_copy("");
-			search_and_replace(ft_copy(s[0]), NULL, &(st->env), 0);
+			search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(st->env), 0);
+			search_and_replace(s[0], s[1], &(st->sorted_env), 0);
 		}
 		search_and_replace2(s[0], &(st->sorted_env));
 		free_update(s, st);
@@ -64,9 +65,9 @@ void	search_and_replace2(char *env, t_env **envi)
 	{
 		if (!ft_strcmp(tmp->key, env))
 			return ;
-
 		tmp = tmp->next;
 	}
+	add_key(env, NULL, envi);
 }
 
 void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
