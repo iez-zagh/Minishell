@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/26 12:00:38 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:22:23 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,10 @@ int	env_cmd(t_parse	*st)
 	tmp = st->env;
 	while (tmp)
 	{
+		printf("%s", tmp->key);
 		if (!tmp->value)
-			printf("%s\n", tmp->key);
+			printf("\n");
 		else
-			printf("%s", tmp->key);
-		if (tmp->value)
 			printf("=%s\n", tmp->value);
 		tmp = tmp->next;
 	}

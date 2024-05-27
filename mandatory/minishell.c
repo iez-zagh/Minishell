@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/25 15:19:54 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:14:24 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,29 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 {
 	t_parse *st;
 
-	atexit(leaks);
+	// atexit(leaks);
 	st = malloc(sizeof(t_parse));
 	if (!st)
 		error(st, 2);
 	if (!env || !env[0])
-	{
-		empty_env(env, st);
-
-	}
+	 	empty_env(st); //return double char pointer
 	else
 	{
-		st->env = set_env(env);
-		st->sorted_env = set_env(env);// the ctrl+c status=130 remember
-		st->env2 = list2array(st->env, st);
-		sort_env(st->sorted_env);
-		st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
-		st->paths_array = ft_split(st->path, ':');
+		// puts("hi");
+		st->env3 = copy_env(env);
 	}
+	st->env = set_env(st->env3);
+	st->path = ft_copy(get_key("PATH", st->env));
+	if (!st->path)
+	{
+		printf("error\n");
+		exit (1);
+	} //handle empty path or else
+	st->paths_array = ft_split(st->path, ':');
+	st->sorted_env = set_env(st->env3);// the ctrl+c status=130 remember
+	st->env2 = list2array(st->env, st);
+	sort_env(st->sorted_env);
+	ft_free(st->env3);
 	wait_prompt(st);
 }
 

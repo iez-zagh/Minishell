@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/23 21:26:54 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 12:08:22 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,27 +74,28 @@ void	ft_exit(t_parse *st, int args_n)
 	}
 }
 
-void	empty_env(char **env, t_parse *st)
+void	empty_env(t_parse *st)
 {
 	char	*pwd;
+	char	*tmp;
 	
 	pwd = malloc (1024);
-	int i = 0;
-	while (pwd[i])
-		printf("[[%c]]\n", pwd[i++]);
-	exit (0);
-	env[0] = "PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin";
-	st->path = "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin";
+	st->env3 = malloc (sizeof(char *) * 5);
+	if (!pwd || !st->env3)
+		return ;
+	st->env3[0] = ft_copy("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin");
 	if (getcwd(pwd, 1024))
 	{
+		tmp = pwd;
 		pwd = ft_strjoin("PWD=", pwd);
-		env[1] = pwd;
+		free (tmp);
+		st->env3[1] = pwd;
 	}
 	else
-		error(st ,6);
-	env[2] = "SHLVL=1";
-	env[3] = "_=/usr/bin/env";
-	env[4] = NULL;
+		return ;
+	st->env3[2] = ft_copy("SHLVL=1");
+	st->env3[3] = ft_copy("_=/usr/bin/env");
+	st->env3[4] = NULL;
 }
 
 int	checking_cmd2(t_parse *st)
@@ -118,4 +119,22 @@ int	checking_cmd2(t_parse *st)
 		return (1);
 	}
 	return (0);
+}
+
+char	**copy_env(char **env)
+{
+	char	**res;
+	int		i;
+
+	res = malloc (sizeof(char *) * count_args(env) + 1);
+	if (!res)
+		return (NULL);//more protection
+	i = 0;
+	while (env[i])
+	{
+		res[i] = ft_copy(env[i]);
+		i++;
+	}
+	res[i] = NULL;
+	return (res);
 }

@@ -14,3 +14,4 @@ int	check_syntax(char *s)
 	// }
 	return (0);
 }
+ 

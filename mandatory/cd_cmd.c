@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/26 14:53:29 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 10:11:30 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,10 @@ void	just_export(t_parse *st)
 	tmp = st->sorted_env;
 	while (tmp)
 	{
+		printf("declare -x %s", tmp->key);
 		if (!tmp->value)
-			printf("declare -x %s\n", tmp->key);
+			printf("\n");
 		else
-			printf("declare -x %s", tmp->key);
-		if (tmp->value)
 			printf("=\"%s\"\n", tmp->value);
 		tmp = tmp->next;
 	}
@@ -93,12 +92,13 @@ void	export_cmd1(t_parse *st)
 	while (st->com_arr[i])
 	{
 		if (check_syntax(st->com_arr[i]))
+			printf("Shellantics: export: `%s': not a valid identifier\n", st->com_arr[i]);
+		else
 		{
-			printf("Shellantics: export: `%s': not a valid identifier\n", st->com_arr[i++]);
-			continue ;
+			check_join(&(st->com_arr[i]), st);
+			res = export_checker(st->com_arr[i]);
+			export_cmd(st, res, st->com_arr[i]);
 		}
-		check_join(&(st->com_arr[i]), st);
-		res = export_checker(st->com_arr[i]);
-		export_cmd(st, res, st->com_arr[i++]);
+		i++;
 	}
 }
