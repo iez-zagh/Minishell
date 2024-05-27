@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 18:02:26 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 20:32:45 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,6 @@ void	just_export(t_parse *st)
 			printf("declare -x %s\n", tmp->key);
 		else
 			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-			// printf("\n");
-		// if (tmp->value)
-		// 	printf("=\"%s\"\n", tmp->value);
 		tmp = tmp->next;
 	}
 }
