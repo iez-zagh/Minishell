@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 11:52:37 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:11:37 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_join_value(char **s, t_parse *st);
 void	ft_join(char **res, t_parse *st);
 void	export_cmd1(t_parse *st);
 int 	ft_strchr(char *s, char c);
-void	search_and_replace2(char *env, t_env **envi);
+int		search_and_replace2(char *env, t_env **envi);
 void	free_update(char **res, t_parse *st);
 char	**export_checker(char *s);
 int		check_syntax(char *s);

@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 10:28:29 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:29:42 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void	export_cmd(t_parse *st, char **s, char *res)
 	{
 		if (ft_strchr(res, '='))
 		{
+			// if (!(get_key(s[0], st->sorted_env)))
 			s[1] = ft_copy("");
+			search_and_replace(s[0], s[1], &(st->sorted_env), 3);
 			search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(st->env), 0);
-			search_and_replace(s[0], s[1], &(st->sorted_env), 0);
 		}
-		search_and_replace2(s[0], &(st->sorted_env));
+		search_and_replace2(ft_copy(s[0]), &(st->sorted_env));
+		sort_env(st->sorted_env);
 		free_update(s, st);
 		return ;
 	}
@@ -38,12 +40,11 @@ void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 	t_env	*tmp;
 
 	tmp = *envi;
-
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, env))
 		{
-			if (!flag)
+			if (!flag || flag == 3)
 				free (env);
 			if (tmp->value)
 				free (tmp->value);
@@ -55,7 +56,7 @@ void	search_and_replace(char *env, char *value, t_env **envi, int flag)
 	add_key(env, value, envi);
 }
 
-void	search_and_replace2(char *env, t_env **envi)
+int	search_and_replace2(char *env, t_env **envi)
 {
 	t_env	*tmp;
 
@@ -66,11 +67,12 @@ void	search_and_replace2(char *env, t_env **envi)
 		if (!ft_strcmp(tmp->key, env))
 		{
 			free (env);
-			return ;
+			return (1);
 		}
 		tmp = tmp->next;
 	}
 	add_key(env, NULL, envi);
+	return (0);
 }
 
 void	add_key(char *key, char *value, t_env **env) //pass the head  of the list

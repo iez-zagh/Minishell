@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 12:14:24 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 14:57:46 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	}
 	st->env = set_env(st->env3);
 	st->path = ft_copy(get_key("PATH", st->env));
-	if (!st->path)
-	{
-		printf("error\n");
-		exit (1);
-	} //handle empty path or else
+	// if (!st->path)
+	// {
+	// 	printf("error\n");
+	// 	exit (1);
+	// } //handle empty path or else
 	st->paths_array = ft_split(st->path, ':');
 	st->sorted_env = set_env(st->env3);// the ctrl+c status=130 remember
 	st->env2 = list2array(st->env, st);
@@ -61,6 +61,8 @@ void error(t_parse *st, int y)
 		printf("exit\nShellantics: exit: %s: numeric argument required\n", st->com_arr[1]);
 	else if (y == 6)
 		printf("error while geting working path\n");
+	else if (y == 7)
+		printf("something went wrong !\n");
 	exit(1);
 }
 

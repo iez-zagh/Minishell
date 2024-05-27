@@ -92,5 +92,8 @@ char	**export_checker(char *s)
 	i++;
 	if (i < (int)ft_strlen(s))
 		res[1] = ft_copy(&s[i]);
+	// printf("%s\n",res[0]);
+	// if (res[1])
+	// 	printf("%s\n",res[1]);
 	return (res);
 }

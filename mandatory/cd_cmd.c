@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 10:11:30 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/05/27 18:02:26 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,13 @@ void	just_export(t_parse *st)
 	tmp = st->sorted_env;
 	while (tmp)
 	{
-		printf("declare -x %s", tmp->key);
 		if (!tmp->value)
-			printf("\n");
+			printf("declare -x %s\n", tmp->key);
 		else
-			printf("=\"%s\"\n", tmp->value);
+			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+			// printf("\n");
+		// if (tmp->value)
+		// 	printf("=\"%s\"\n", tmp->value);
 		tmp = tmp->next;
 	}
 }
@@ -97,6 +99,8 @@ void	export_cmd1(t_parse *st)
 		{
 			check_join(&(st->com_arr[i]), st);
 			res = export_checker(st->com_arr[i]);
+			if (!res)
+				error(st, 7);
 			export_cmd(st, res, st->com_arr[i]);
 		}
 		i++;
