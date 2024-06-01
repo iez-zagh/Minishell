@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 18:29:42 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:55:44 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@ void	export_cmd(t_parse *st, char **s, char *res)
 	{
 		if (ft_strchr(res, '='))
 		{
-			// if (!(get_key(s[0], st->sorted_env)))
 			s[1] = ft_copy("");
-			search_and_replace(s[0], s[1], &(st->sorted_env), 3);
 			search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(st->env), 0);
+			search_and_replace(s[0], s[1], &(st->sorted_env), 0);
 		}
 		search_and_replace2(ft_copy(s[0]), &(st->sorted_env));
 		sort_env(st->sorted_env);
@@ -98,10 +97,6 @@ char	*get_pwd(t_parse *st)
 	if (!pwd)
 		return (NULL);
 	if (!(getcwd(pwd, 1024)))
-	{
-		printf("getcwd() error\n");
-		freeing(st);
-		exit (1);
-	}
+		return (ft_strjoin(get_key("PWD", st->env), "/.."));
 	return (pwd);
 }

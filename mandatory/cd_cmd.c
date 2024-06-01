@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 18:02:26 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/01 14:19:00 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_env	*before_last_node(t_env *env)
 void	ft_swap(t_env *a, t_env *b)
 {
 	char	*temp_key;
-	char	*temp_value;
+	char	*temp_value;	
 
 	temp_key = a->key;
 	temp_value = a->value;
@@ -73,9 +73,6 @@ void	just_export(t_parse *st)
 			printf("declare -x %s\n", tmp->key);
 		else
 			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-			// printf("\n");
-		// if (tmp->value)
-		// 	printf("=\"%s\"\n", tmp->value);
 		tmp = tmp->next;
 	}
 }

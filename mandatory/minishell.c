@@ -6,18 +6,18 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/27 14:57:46 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:52:41 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void leaks(void)
+void	leaks(void)
 {
 	system("leaks minishell");
 }
 
-int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[], char *env[])
+int	main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[], char *env[])
 {
 	t_parse *st;
 
@@ -47,7 +47,7 @@ int main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	wait_prompt(st);
 }
 
-void error(t_parse *st, int y)
+void	error(t_parse *st, int y)
 {
 	if (y == 1)
 		printf("an error accored in the forking operation !\n");
@@ -66,7 +66,7 @@ void error(t_parse *st, int y)
 	exit(1);
 }
 
-void signal_handler(int signum, t_parse *st)
+void	signal_handler(int signum, t_parse *st)
 {
 	if (signum == SIGINT)
 	{
@@ -81,12 +81,12 @@ void signal_handler(int signum, t_parse *st)
 	}
 }
 
-void wait_prompt(t_parse *st)
+void	wait_prompt(t_parse *st)
 {
 	while (1)
 	{
 		signal(SIGTERM, (void *)signal_handler);
-		st->arr = readline("Shellantics-1.0$ ");
+		st->arr = readline("• Shellantics-1.0$ ");
 		if (!st->arr)
 			error(st, 3);
 		add_history(st->arr);

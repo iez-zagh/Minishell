@@ -54,3 +54,9 @@ void	ft_free(char **s)
 		free (s[i++]);
 	free (s);
 }
+
+void	pwd_cmd(t_parse *st)
+{
+	printf("%s\n", get_key("PWD",st->env));
+	return ;
+}
