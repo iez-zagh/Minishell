@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/01 18:42:36 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:43:52 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ char	*get_pwd(t_parse *st)
 	if (!pwd)
 		return (NULL);
 	if (!(getcwd(pwd, 1024)))
+	{
+		printf("cd: error retrieving current directory: getcwd\n");
+		free (pwd);
 		return (ft_strjoin(get_key("PWD", st->env), "/.."));
+	}
 	return (pwd);
 }

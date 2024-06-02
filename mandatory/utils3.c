@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/01 15:15:11 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:00:26 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	checking_cmd2(t_parse *st)
 	if (!ft_strcmp(st->com_arr[0], "pwd"))
 	{
 		printf("%s\n", get_key("PWD",st->env));
-		// pwd_cmd(st);
+		ft_free2(st);
 		return (1);
 	}
 	return (0);
