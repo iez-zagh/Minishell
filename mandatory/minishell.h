@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/01 14:23:40 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:28:44 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	wait_prompt(t_parse *st);
 int		words_count(char const *s, char c);
 char	*ft_cpy(char const *str, char c);
 void	free_array(char **array);
-char	**allocate_and_initialize_array(const char *s, char c, int w_count);
 char	**ft_split(char const *s, char c);
 void	excute_cmd(t_parse *st);
 void	ft_free(char **s);
@@ -123,5 +122,5 @@ void	free_update(char **res, t_parse *st);
 char	**export_checker(char *s);
 int		check_syntax(char *s);
 char	**copy_env(char **env);
-
+void	pwd_cmd(t_parse *st);
 #endif

@@ -14,4 +14,12 @@ int	check_syntax(char *s)
 	// }
 	return (0);
 }
- 
+
+void	pwd_cmd(t_parse *st)
+{
+	char	*pwd;
+
+	pwd = get_pwd(st);
+	printf("%s\n", pwd);
+	free (pwd);
+}

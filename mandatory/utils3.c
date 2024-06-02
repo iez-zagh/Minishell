@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/02 17:00:26 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:27:01 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,11 @@ int	checking_cmd2(t_parse *st)
 		ft_free2(st);
 		return (1);
 	}
-	if (!ft_strcmp(st->com_arr[0], "pwd"))
+	if (!ft_strcmp(st->com_arr[0], "pwd")) // enter with deleted directory
 	{
-		printf("%s\n", get_key("PWD",st->env));
+		pwd_cmd(st);
 		ft_free2(st);
-		return (1);
+		return (1);	
 	}
 	return (0);
 }
