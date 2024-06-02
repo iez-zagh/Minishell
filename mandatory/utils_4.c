@@ -65,6 +65,8 @@ void	free_update(char **res, t_parse *st)
 	st->env2 = list2array(st->env, st);
 	free(st->path);
 	st->path = ft_copy(get_key("PATH", st->env)); //handle empty path or else
+	if (!st->path)
+		return ;
 	ft_free(st->paths_array);
 	st->paths_array = ft_split(st->path, ':');
 }
@@ -92,8 +94,5 @@ char	**export_checker(char *s)
 	i++;
 	if (i < (int)ft_strlen(s))
 		res[1] = ft_copy(&s[i]);
-	// printf("%s\n",res[0]);
-	// if (res[1])
-	// 	printf("%s\n",res[1]);
 	return (res);
 }

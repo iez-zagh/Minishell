@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:33 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/02 16:10:19 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/03 00:19:42 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,9 @@ int	main(int __attribute__((unused)) argc, char __attribute__((unused)) * argv[]
 	if (!env || !env[0])
 	 	empty_env(st); //return double char pointer
 	else
-	{
-		// puts("hi");
 		st->env3 = copy_env(env);
-	}
 	st->env = set_env(st->env3);
 	st->path = ft_copy(get_key("PATH", st->env));
-	// if (!st->path)
-	// {
-	// 	printf("error\n");
-	// 	exit (1);
-	// } //handle empty path or else
 	st->paths_array = ft_split(st->path, ':');
 	st->sorted_env = set_env(st->env3);// the ctrl+c status=130 remember
 	st->env2 = list2array(st->env, st);
@@ -93,6 +85,17 @@ void	wait_prompt(t_parse *st)
 		if (checking_cmd(st))
 			continue ;
 		st->com_path = get_acc_path(st->paths_array, st->com_arr[0]);
+		if (!st->path)
+		{
+			printf("Shellantics: %s: No such file or directory\n", st->com_arr[0]);
+			freeing2(st);
+			continue ;
+		}
+		if (checking_cmd2(st))
+		{
+			free(st->com_path);
+			continue ;
+		}
 		if (!st->com_path)
 			printf("%s :command not found\n", st->com_arr[0]);
 		else

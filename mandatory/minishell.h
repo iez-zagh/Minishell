@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 10:50:47 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/02 21:59:34 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:27:00 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,6 @@ char	**copy_env(char **env);
 void	pwd_cmd(t_parse *st);
 void	unset_cmd(t_parse *st);
 void	unset_cmd1(t_env **env, char *s);
+int		checking_cmd3(t_parse *st);
 
 #endif

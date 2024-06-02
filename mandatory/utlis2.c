@@ -6,7 +6,7 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/01 11:53:54 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/06/02 23:29:33 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,19 @@ int	checking_cmd(t_parse *st)
 		terminate_shell(st);
 		return (1);
 	}
+	if (!ft_strcmp(st->com_arr[0], "export"))
+	{	
+		export_cmd1(st);
+		ft_free2(st);
+		return (1);
+	}
 	if (st->arr[0] == '.' && st->arr[1] == '/')
 	{
 		excute_file(st);
 		ft_free2(st);
 		return (1);
 	}
-	if (!ft_strcmp("env", st->com_arr[0]))
-	{
-		if (env_cmd(st))
-		{
-			ft_free2(st);
-			return (1);
-		}
-	}
-	if (checking_cmd2(st))
+	if (checking_cmd3(st))
 		return (1);
 	return (0);
 }
@@ -68,11 +66,6 @@ int	env_cmd(t_parse	*st)
 			printf("%s\n", tmp->key);
 		else
 			printf("%s=%s\n", tmp->key, tmp->value);
-		// printf("%s", tmp->key);
-		// if (!tmp->value)
-		// 	printf("\n");
-		// else
-		// 	printf("=%s\n", tmp->value);
 		tmp = tmp->next;
 	}
 	return (1);
