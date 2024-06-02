@@ -24,25 +24,29 @@ void	pwd_cmd(t_parse *st)
 	free (pwd);
 }
 
-void	unset_cmd(t_parse *st, char *s)
+void	unset_cmd1(t_env **env, char *s)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
 	
-	tmp = st->env;
-	while (tmp)
+	tmp = *env;
+	while (tmp->next)
 	{
-		if (!(ft_strcmp(tmp->key, s)))
+		if (!(ft_strcmp(tmp->next->key, s)))
 		{
-
+			tmp2 = tmp->next;
+			tmp->next = tmp->next->next;
+			free (tmp2->key);
+			free (tmp2->value);
+			free (tmp2);
+			return ;
 		}
+		tmp = tmp->next;
 	}
 }
 
-void	delete_node(t_env *env)
+void	unset_cmd(t_parse *st)
 {
-	while (env)
-	{
-		
-	}
+	unset_cmd1(&(st->env), st->com_arr[1]);
+	unset_cmd1(&(st->sorted_env), st->com_arr[1]);
 }
