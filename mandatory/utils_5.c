@@ -23,3 +23,26 @@ void	pwd_cmd(t_parse *st)
 	printf("%s\n", pwd);
 	free (pwd);
 }
+
+void	unset_cmd(t_parse *st, char *s)
+{
+	t_env	*tmp;
+	t_env	*tmp2;
+	
+	tmp = st->env;
+	while (tmp)
+	{
+		if (!(ft_strcmp(tmp->key, s)))
+		{
+
+		}
+	}
+}
+
+void	delete_node(t_env *env)
+{
+	while (env)
+	{
+		
+	}
+}
