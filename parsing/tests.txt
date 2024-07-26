@@ -1,0 +1,3 @@
+remove permission for file
+./minishell < /dev/urandom
+ls > ""

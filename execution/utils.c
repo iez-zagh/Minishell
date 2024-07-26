@@ -6,71 +6,52 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 20:52:27 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/18 19:54:11 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:03:24 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	excute_cmd(t_parse *st)
+void	excute_cmd(t_parse *st, t_params *params)
 {
-	int	pid;
-
-	ft_free(st->env2);
-	st->env2 = list2array(st->env, st);
-	pid = fork();
-	if (pid == 0)
-		execve(st->com_path, st->com_arr, st->env2); //protection
-	wait(0);
-	return ;
+	if (params->pid == 0)
+		execve(st->com_path, st->cmd, params->env2);
 }
 
-void change_directory(t_parse *st)
+void change_directory(t_parse *st, t_params *params)
 {
 	char	*home;
 
-	if (count_args(st->com_arr) == 1)
+	if (count_args(st->cmd) == 1)
 	{
-		home = get_key("HOME", st->env);
+		home = get_key("HOME", params->env);
 		if (!home)
 		{
 			printf("Shellantics: cd: HOME not set\n");
-			// ft_free(st->com_arr);
 			return ;
 		}
-		change_dir(st, home);
+		change_dir(st, params, home);
 		return ;
 	}
-	change_dir(st, st->com_arr[1]);
+	change_dir(st, params, st->cmd[1]);
 }
 
-void	excute_file(t_parse *st)
-{
-	int	pid;
-
-	pid = fork();
-	if (pid == 0)
-		if (execve(st->com_arr[0], st->com_arr, st->env2) == -1)
-			printf("Shellantics: %s: No such file or directory\n", st->com_arr[0]);
-	wait (0);
-}
-
-void	terminate_shell(t_parse *st)
+void	terminate_shell(t_parse *st, t_params *params)
 {
 	int	args_n;
 
-	args_n = count_args(st->com_arr);
+	args_n = count_args(st->cmd);
 	if (args_n == 1 || args_n == 2)
-		ft_exit(st, args_n);
-	if (!(numbered_arg(st->com_arr[1])) && (count_args(st->com_arr)) > 2)
+		ft_exit(st, args_n, params);
+	if (!(numbered_arg(st->cmd[1])) && (count_args(st->cmd)) > 2)
 	{
 		printf("exit\nShellantics: exit: too many arguments\n");
-		return ;
+		return ;//its one 
 	}
-	if ((numbered_arg(st->com_arr[1])))
+	if ((numbered_arg(st->cmd[1])))
 	{
-		printf("exit\nShellantics: exit: %s: numeric argument required\n", st->com_arr[1]);
-		freeing(st);
+		printf("exit\nShellantics: exit: %s: numeric argument required\n", st->cmd[1]);
+		// freeing(st, params);
 		exit (255);
 	}
 }

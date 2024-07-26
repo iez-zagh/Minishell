@@ -6,11 +6,11 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 12:35:31 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/05/20 14:32:28 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:00:38 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_env	*last_var(t_env *env_vars)
 {

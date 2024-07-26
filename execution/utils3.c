@@ -6,16 +6,16 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 21:58:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/02 23:20:35 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:53:42 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	numbered_arg(char *s)
 {
 	int	i;
-	
+
 	i = 0;
 	if (s[i] == '-' || s[i] == '+')
 		i++;
@@ -28,7 +28,7 @@ int	numbered_arg(char *s)
 	return (0);
 }
 
-size_t	ft_atol(char *s, t_parse *st)
+size_t	ft_atol(char *s, t_parse *st, t_params *params)
 {
 	int		i;
 	size_t	res;
@@ -48,69 +48,63 @@ size_t	ft_atol(char *s, t_parse *st)
 		res = res * 10 + s[i++] - '0';
 		if (!(s[i] >= 0 && s[i] <= '9') || res > __LONG_MAX__)
 		{
-			freeing(st);
+			freeing(st, params);
 			exit (255);
 		}
 	}
 	return (res * sign);
 }
 
-void	ft_exit(t_parse *st, int args_n)
+void	ft_exit(t_parse *st, int args_n, t_params *params)
 {
 	size_t	n;
 
 	if (args_n == 1)
 	{
-		freeing(st);
+		// freeing(st, params);
 		printf ("exit\n");
 		exit (0);
 	}
-	if (args_n == 2 && !(numbered_arg(st->com_arr[1])))
+	if (args_n == 2 && !(numbered_arg(st->cmd[1])))
 	{
-		n = ft_atol(st->com_arr[1], st);
-		freeing(st);
+		n = ft_atol(st->cmd[1], st, params);
+		// freeing(st, params);
 		printf ("exit\n");
 		exit (n);
 	}
 }
 
-void	empty_env(t_parse *st)
+void	empty_env(t_params *params)
 {
 	char	*pwd;
 	char	*tmp;
-	
+
 	pwd = malloc (1024);
-	st->env3 = malloc (sizeof(char *) * 5);
-	if (!pwd || !st->env3)
+	params->env3 = malloc (sizeof(char *) * 5);
+	if (!pwd || !params->env3)
 		return ;
-	st->env3[0] = ft_copy("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin");
+	params->env3[0] = ft_copy("PATH=/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin");
 	if (getcwd(pwd, 1024))
 	{
 		tmp = pwd;
-		pwd = ft_strjoin("PWD=", pwd);
+		pwd = ft_strjoin2("PWD=", pwd);
 		free (tmp);
-		st->env3[1] = pwd;
+		params->env3[1] = pwd;
 	}
 	else
 		return ;
-	st->env3[2] = ft_copy("SHLVL=1");
-	st->env3[3] = ft_copy("_=/usr/bin/env");
-	st->env3[4] = NULL;
+	params->env3[2] = ft_copy("SHLVL=1");
+	params->env3[3] = ft_copy("_=/usr/bin/env");
+	params->env3[4] = NULL;
 }
 
-int	checking_cmd2(t_parse *st)
+int	checking_cmd2(t_parse *st, t_params *params)
 {
-	if (!ft_strcmp(st->com_arr[0], ".."))
+	if (!ft_strcmp("env", st->cmd[0]))
 	{
-		printf("%s: command not found\n",st->com_arr[0]);
-		ft_free2(st);
-		return (1);
-	}
-	if (!ft_strcmp("env", st->com_arr[0]))
-	{
-		if (env_cmd(st))
+		if (env_cmd(st, params))
 		{
-			ft_free2(st);
+			// ft_free2(st);
 			return (1);
 		}
 	}
@@ -122,7 +116,7 @@ char	**copy_env(char **env)
 	char	**res;
 	int		i;
 
-	res = malloc (sizeof(char *) * count_args(env) + 1);
+	res = malloc (sizeof(char *) * (count_args(env) + 1));
 	if (!res)
 		return (NULL);//more protection
 	i = 0;

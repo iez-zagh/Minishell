@@ -6,33 +6,34 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 16:39:49 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/02 20:12:38 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:10:16 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	export_cmd(t_parse *st, char **s, char *res)
+void	export_cmd(char **s, char *res, t_params *params)
 {
 	if (count_args(s) == 1)
 	{
 		if (ft_strchr(res, '='))
 		{
 			s[1] = ft_copy("");
-			search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(st->env), 0);
-			search_and_replace(s[0], s[1], &(st->sorted_env), 0);
+			search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(params->env), 0);
+			search_and_replace(s[0], s[1], &(params->sorted_env), 0);
 		}
 		else
-			search_and_replace2(s[0], &(st->sorted_env));
-		sort_env(st->sorted_env);
-		free_update(s, st);
+			search_and_replace2(s[0], &(params->sorted_env));
+		sort_env(params->sorted_env);
+		free_update(s, params);
 		return ;
 	}
-	if (st->export_f)
-		ft_join(s,st);
-	search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(st->sorted_env), 0);
-	search_and_replace(s[0], s[1], &(st->env), 0);
-	free_update(s, st);
+	if (params->export_f) //appending
+		ft_join(s, params);
+	search_and_replace(ft_copy(s[0]), ft_copy(s[1]), &(params->sorted_env), 0);
+	search_and_replace(s[0], s[1], &(params->env), 0);
+	sort_env(params->sorted_env);
+	free_update(s, params);
 }
 
 void	search_and_replace(char *env, char *value, t_env **envi, int flag)
@@ -81,8 +82,8 @@ void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
 
 	new_key = malloc (sizeof(t_env));
 	if (!new_key)
-		return ;//more protection nega for this
-	new_key->key = key;	
+		return ; //more protection nega for this
+	new_key->key = key;
 	new_key->value = value;
 	new_key->next = NULL;
 	// if (!new_key->key || !new_key->value)
@@ -90,7 +91,7 @@ void	add_key(char *key, char *value, t_env **env) //pass the head  of the list
 	last_var((*env))->next = new_key;
 }
 
-char	*get_pwd(t_parse *st)
+char	*get_pwd(t_params *params)
 {
 	char	*pwd;
 
@@ -101,7 +102,7 @@ char	*get_pwd(t_parse *st)
 	{
 		printf("cd: error retrieving current directory: getcwd\n");
 		free (pwd);
-		return (ft_strjoin(get_key("PWD", st->env), "/.."));
+		return (ft_strjoin2(get_key("PWD", params->env), "/.."));
 	}
 	return (pwd);
 }

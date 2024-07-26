@@ -6,16 +6,16 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/01 18:43:46 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:50:24 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-void	change_pwd_value(t_parse *st)
+void	change_pwd_value(t_params *params)
 {
-	search_and_replace("OLDPWD", ft_copy(get_key("PWD", st->env)), &(st->env), 1);
-	search_and_replace("PWD", get_pwd(st), &(st->env), 1);
+	search_and_replace("OLDPWD", ft_copy(get_key("PWD", params->env)), &(params->env), 1);
+	search_and_replace("PWD", get_pwd(params), &(params->env), 1);
 }
 
 t_env	*before_last_node(t_env *env)
@@ -28,7 +28,7 @@ t_env	*before_last_node(t_env *env)
 void	ft_swap(t_env *a, t_env *b)
 {
 	char	*temp_key;
-	char	*temp_value;	
+	char	*temp_value;
 
 	temp_key = a->key;
 	temp_value = a->value;
@@ -62,13 +62,18 @@ void	sort_env(t_env *env)
 	}
 }
 
-void	just_export(t_parse *st)
+void	just_export(t_params *params)
 {
 	t_env	*tmp;
 
-	tmp = st->sorted_env;
+	tmp = params->sorted_env;
 	while (tmp)
 	{
+		if (!(ft_strcmp("_", tmp->key)))
+		{
+			tmp = tmp->next;
+			continue ;
+		}
 		if (!tmp->value)
 			printf("declare -x %s\n", tmp->key);
 		else
@@ -77,28 +82,28 @@ void	just_export(t_parse *st)
 	}
 }
 
-void	export_cmd1(t_parse *st)
+void	export_cmd1(t_parse *st, t_params *params)
 {
 	int		i;
 	char	**res;
 
-	if (count_args(st->com_arr) == 1) //handle the "export" yooo i am here
+	if (count_args(st->cmd) == 1) //handle the "export" yooo i am here
 	{
-		just_export(st);
+		just_export(params);
 		return ;
 	}
 	i = 1;
-	while (st->com_arr[i])
+	while (st->cmd[i])
 	{
-		if (check_syntax(st->com_arr[i]))
-			printf("Shellantics: export: `%s': not a valid identifier\n", st->com_arr[i]);
+		if (check_syntax(st->cmd[i]))
+			printf("Shellantics: export: `%s': not a valid identifier\n", st->cmd[i]);
 		else
 		{
-			check_join(&(st->com_arr[i]), st);
-			res = export_checker(st->com_arr[i]);
+			check_join(&(st->cmd[i]), st, params);
+			res = export_checker(st->cmd[i]);
 			if (!res)
-				error(st, 7);
-			export_cmd(st, res, st->com_arr[i]);
+				error(st, 7, params);
+			export_cmd(res, st->cmd[i], params);
 		}
 		i++;
 	}

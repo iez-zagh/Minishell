@@ -4,24 +4,26 @@ YELLOW_TEXT =\033[1;33m
 RESET_TEXT =\033[0m
 
 NAME = minishell
+READLINE_DIR=$(shell brew --prefix  readline)
 N = -fsanitize=address
-BONUS = minishell_bonus
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 CC = cc
-MANDATORY_DIR = mandatory
-BONUS_DIR = bonus
+EXECUTION_DIR = execution
+SIGNALS_DIR = signals
+PARSING_DIR = parsing
 
-M_SOURCES = $(wildcard $(MANDATORY_DIR)/*.c)
+M_SOURCES = $(wildcard $(EXECUTION_DIR)/*.c $(PARSING_DIR)/*.c $(SIGNALS_DIR)/*.c)
 
 M_OBJECTS = ${M_SOURCES:.c=.o}
 
-%.o : %.c $(MANDATORY_DIR)/minishell.h
-	@$(CC) $(CFLAGS) -c $< -o $@
+%.o : %.c minishell.h
+	@$(CC) $(CFLAGS) -I $(READLINE_DIR)/include  -c $< -o $@
 
 all : $(NAME)
 
+	
 $(NAME) : $(M_OBJECTS)
-	@$(CC) $(M_OBJECTS) -lreadline  -o $(NAME)
+	@$(CC) $(CFLAGS) -L $(READLINE_DIR)/lib 	$(M_OBJECTS) -lreadline  -o $(NAME)
 	@echo "$(GREEN_TEXT)[the executable created successfully]$(RESET_TEXT)"
 
 clean :

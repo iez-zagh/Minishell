@@ -1,0 +1,7 @@
+types:
+input : <
+output : >
+heredoc : <<
+append : >>
+pipe : |
+word
