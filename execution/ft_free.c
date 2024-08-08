@@ -1,10 +1,16 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_free.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 17:19:56 by iez-zagh          #+#    #+#             */
+/*   Updated: 2024/08/07 18:49:51 by iez-zagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void	ft_free2(t_parse *st)
-{
-	// free(st->arr);
-	ft_free(st->cmd);
-}
+#include "../minishell.h"
 
 void	free_list(t_env *env)
 {
@@ -20,27 +26,17 @@ void	free_list(t_env *env)
 	}
 }
 
-void	freeing(t_parse *st, t_params *params)
+void	freeing(t_params *params)
 {
-	free(params->path);
-	free_list(params->env);
-	free_list(params->sorted_env);
-	if (st->cmd)
-		ft_free(st->cmd);
+	if (params->path)
+		free(params->path);
+	if (params->env)
+		free_list(params->env);
 	if (params->paths_array)
 		ft_free(params->paths_array);
-	ft_free(params->env2);
-	free (st);
-}
-
-void	freeing2(t_parse *st)
-{
-	// free(params->path);
-	free(st->com_path);
-	if (st->cmd)
-		ft_free(st->cmd);
-	// if (params->paths_array)
-	// 	ft_free(params->paths_array);
+	if (params->env2)
+		ft_free(params->env2);
+	ft_malloc(0, 3);
 }
 
 void	ft_free(char **s)
@@ -55,16 +51,26 @@ void	ft_free(char **s)
 	free (s);
 }
 
-int	back_cmd(t_parse *st, int i, t_params *params)
+void	change_pwd_value(t_params *params)
 {
-	printf("%d\n", i);
-	if (ft_strcmp("..", st->cmd[1]))
-		return (1);
-	if (chdir("..") == -1)
+	char	*tmp;
+
+	tmp = get_key("PWD", params->env);
+	if (tmp)
 	{
-		printf ("problem in chdir func\n"); //needs protection 
-		exit (1);
+		search_and_replace(ft_copy("OLDPWD"), ft_copy(tmp),
+			&(params->env), 0);
+		search_and_replace(ft_copy("OLDPWD"), ft_copy(tmp),
+			&(params->sorted_env), 0);
 	}
-	change_pwd_value(params);
-	return (0);
+	else
+	{
+		search_and_replace(ft_copy("OLDPWD"), "",
+			&(params->env), 0);
+		search_and_replace(ft_copy("OLDPWD"), "",
+			&(params->sorted_env), 0);
+	}
+	search_and_replace(ft_copy("PWD"), get_pwd(params),
+		&(params->sorted_env), 0);
+	search_and_replace(ft_copy("PWD"), get_pwd(params), &(params->env), 0);
 }

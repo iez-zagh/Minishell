@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libc1.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 11:00:48 by houamrha          #+#    #+#             */
+/*   Updated: 2024/08/01 11:33:28 by houamrha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 char	*ft_strdup(const char *s1)
@@ -28,17 +40,13 @@ char	*ft_strdup(const char *s1)
 	return (copy);
 }
 
-char	*ft_mysubstr(char const *s, unsigned int start, size_t len)
+char	*fmysubstr(char const *s, unsigned int start, size_t len)
 {
 	char	*substring;
 	int		i;
 
 	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
-		return (ft_strdup(""));
-	if (len > ft_strlen(s) - start)
-		len = ft_strlen(s) - start;
 	i = 0;
 	substring = ft_malloc((len + 1) * sizeof(char), 1);
 	if (substring == 0)
@@ -59,7 +67,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	while (s && s[i]) // added
+	while (s && s[i])
 		i++;
 	return (i);
 }
@@ -90,8 +98,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		join++;
 		s2++;
 	}
-	*join = '\0';
-	return (join_string);
+	return (*join = '\0', join_string);
 }
 
 int	ft_strcmp(char *s1, char *s2)

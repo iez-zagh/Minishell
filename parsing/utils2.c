@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 11:03:50 by houamrha          #+#    #+#             */
+/*   Updated: 2024/07/30 11:03:52 by houamrha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 t_token	*last_node(t_token *token)
@@ -36,20 +48,6 @@ void	add_back_parse(t_parse **parse, t_parse *new)
 		last_node_parse(*parse)->next = new;
 }
 
-void	tokens_reset(t_token **token)
-{
-	t_token	*tmp;
-
-	while (*token)
-	{
-		tmp = *token;
-		*token = (*token)->next;
-		free(tmp->type);
-		free(tmp->value);
-		free(tmp);
-	}
-}
-
 void	add_middle(t_token **token, char **arr)
 {
 	t_token	*tmp;
@@ -70,27 +68,4 @@ void	add_middle(t_token **token, char **arr)
 		*token = (*token)->next;
 		i++;
 	}
-}
-
-void	add_middle_n(t_token **token, char *value)
-{
-	t_token	*tmp;
-	t_token	*new;
-
-	new = ft_malloc(sizeof(t_token), 1);
-	new->next = NULL;
-	new->type = ft_strdup("WORD");
-	new->value = value;
-	if (white_word(value))
-		new->wh = 1;
-	tmp = (*token)->next;
-	(*token)->flag = 1;
-	(*token)->next = new;
-	new->next = tmp;
-	*token = (*token)->next;
-}
-
-void	exit_syntax_error(char *error_msg)
-{
-	printf("%s\n", error_msg);
 }

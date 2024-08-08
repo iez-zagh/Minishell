@@ -1,93 +1,77 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   forking.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 10:00:20 by iez-zagh          #+#    #+#             */
+/*   Updated: 2024/08/07 00:27:22 by iez-zagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int	forking_piping(t_params *params, int i)
+int	first_cmd(int fds[2])
 {
-	ssize_t		r;
-	char		buffer[500];
-
-	if (i != params->cmds - 1)
-		pipe(params->fds);
-	params->pid = fork();
-	if (params->pid < 0) 
-	{
-		perror("fork)");
-	}//handle failure
-	if (params->pid == 0)
-	{
-		if (params->flag && i > 1 && params->flag_2)
-		{
-			r = 1;
-			while (r)	
-				r = read(params->save_fd, buffer, sizeof(buffer));//handle the failure of read
-		}
-		if (i == 0 && params->cmds > 1)
-		{
-			if (first_cmd(params->fds))
-			{
-				close(params->fds[0]);
-				close(params->fds[1]);
-				return (1);
-			}
-		}
-		else //middle or last command
-		{
-			if (i != 0)
-			{
-			if (params->flag  && i != params->cmds - 1)
-			{
-				if (dup2(params->fds[0], STDIN_FILENO) == -1)
-				{
-						perror("dup2");
-						return (1);
-					}
-					close(params->fds[0]);
-				}
-				else if (params->save_fd != -1)
-				{
-					if (dup2(params->save_fd, STDIN_FILENO) == -1)
-					{ 
-						perror("dup2");//remember to close the params->fds in failure cases
-						// return (1);
-					}
-					close(params->save_fd);
-				}
-				}
-				if (i != params->cmds - 1 && i < params->cmds)
-				{
-				close(params->fds[0]);
-				if (dup2(params->fds[1], STDOUT_FILENO) == -1)
-				{
-					perror("dup2");
-						return (1);
-				}
-				close(params->fds[1]);
-				}
-			}
-		// close(params->fds[1]);
-		// close(params->save_fd);
-		close(params->fds[0]);
-	}
+	close(fds[0]);
+	if (dup2(fds[1], STDOUT_FILENO) == -1)
+		return (1);
+	close(fds[1]);
 	return (0);
 }
 
-void	forking_checker(t_parse *st, t_params *params, int i)
+void	dup_in(t_params *params)
 {
-	slash_path(st, params);
-	if ((!(params->cmds == 1 && check_builtins(st->cmd[0]))
-		|| (params->cmds == 1 && !check_builtins(st->cmd[0])))) //do not check for the command path
-			forking_piping(params, i);
+	if (first_cmd(params->fds))
+	{
+		close(params->fds[0]);
+		close(params->fds[1]);
+		exit (1);
+	}
 }
 
-void	initialiaze_vars(t_params *params, int *i, t_token **token, int f)
+void	middle_cmd(t_params *params)
 {
-	if (f)
+	close(params->fds[0]);
+	if (dup2(params->fds[1], STDOUT_FILENO) == -1)
 	{
-		params->flag = 0;
-		*token = NULL;
-		params->status = 0;
-	}	
-	params->pid = 1;
-	params->flag_2 = 0;
-	params->save_fd = -1;
-	*i = 0;
+		perror("dup2");
+		exit (1);
+	}
+	close(params->fds[1]);
+}
+
+int	last_cmd(int fds[2])
+{
+	close(fds[1]);
+	if (dup2(fds[0], STDIN_FILENO) == -1)
+		return (1);
+	close(fds[0]);
+	return (0);
+}
+
+void	forking_piping(t_params *params)
+{
+	if (params->flag && params->i > 1 && params->flag_2)
+	{
+		close (params->save_fd);
+		params->save_fd = params->fds[0];
+	}
+	if (params->i == 0 && params->cmds > 1)
+		dup_in(params);
+	else
+	{
+		if (params->i)
+		{
+			if (dup2(params->save_fd, STDIN_FILENO) == -1)
+			{
+				perror("dup2");
+				exit (1);
+			}
+			close(params->fds[0]);
+		}
+		if (params->i != params->cmds - 1 && params->i)
+			middle_cmd(params);
+	}
 }

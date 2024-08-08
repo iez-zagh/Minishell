@@ -6,23 +6,32 @@
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 20:05:53 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/06/09 23:09:58 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/08/06 21:37:31 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_strjoin_env(char *s1, char *s2)
+char	*check_allocate(char *s1, char *s2)
+{
+	char	*s;
+
+	if (!s1 || !s2)
+		return (NULL);
+	s = malloc((ft_strlen(s1) + ft_strlen(s2) + 2));
+	if (!s)
+		return (NULL);
+	return (s);
+}
+
+char	*ft_strjoin_env(char *s1, char *s2, t_params *params)
 {
 	char	*join_string;
 	char	*join;
 
-	if (!s1 || !s2)
-		return (NULL);
-	join_string = (char *)malloc
-		((ft_strlen(s1) + ft_strlen(s2) + 2) * sizeof(char));
+	join_string = check_allocate(s1, s2);
 	if (!join_string)
-		return (0);
+		malloc_error(params);
 	join = join_string;
 	while (*s1)
 	{
@@ -71,4 +80,20 @@ char	*ft_copy(const char *s)
 	}
 	res[i] = '\0';
 	return (res);
+}
+
+char	*ft_slashs(t_parse *st)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (st->cmd[0][i])
+	{
+		if (st->cmd[0][i] == '/')
+			j = i + 1;
+		i++;
+	}
+	return (ft_substr(st->cmd[0], j, i - 1));
 }

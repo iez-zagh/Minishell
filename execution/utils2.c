@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utlis2.c                                           :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 16:05:38 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/07/20 20:15:11 by iez-zagh         ###   ########.fr       */
+/*   Created: 2024/08/01 15:46:07 by iez-zagh          #+#    #+#             */
+/*   Updated: 2024/08/07 14:21:12 by iez-zagh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,13 @@
 
 int	checking_cmd(t_parse *st, t_params *params)
 {
-	params->status = 0;//remember to update this frero
-	// puts("here we go again");
-	// print(st);
 	if (!(ft_strcmp(st->cmd[0], "exit")))
-	{
-		terminate_shell(st, params);
-		return (1);
-	}
+		return (terminate_shell(st, params));
 	if (!ft_strcmp(st->cmd[0], "export"))
-	{
-		export_cmd1(st, params);
-		return (1);
-	}
-	// if (st->cmd[0][0] == '.' && st->cmd[0][1] == '/')
-	// {
-	// 	excute_file(st, params);//handle multiple slashes
-	// 	return (1);
-	// }
-	if (checking_cmd3(st, params))
-		return (1);
+		return (export_cmd1(st, params));
+	if (!ft_strcmp("env", st->cmd[0]))
+		return (env_cmd(st, params));
+	return (checking_cmd3(st, params));
 	return (0);
 }
 
@@ -41,23 +28,26 @@ int	env_cmd(t_parse	*st, t_params *params)
 {
 	t_env	*tmp;
 
-	search_and_replace("_", get_acc_path(params->paths_array, "env"), &(params->env), 1);
 	if (count_args(st->cmd) > 1)
 	{
-		printf ("minishell: env: Too many arguments.\n");
+		print_error("env", ": Too many arguments\n", NULL);
 		return (1);
 	}
 	tmp = params->env;
 	while (tmp)
 	{
-		if (!tmp->value)
-			printf("%s\n", tmp->key);
-		else
-			printf("%s=%s\n", tmp->key, tmp->value);
+		if (tmp->key && tmp->value && !(!ft_strcmp(tmp->key, "PATH")
+				&& params->path_flag))
+		{
+			write(1, tmp->key, ft_strlen(tmp->key));
+			write(1, "=", 1);
+			write(1, tmp->value, ft_strlen(tmp->value));
+			write(1, "\n", 1);
+		}
 		tmp = tmp->next;
 	}
-	search_and_replace("_", ft_copy("env"), &(params->env), 1);
-	return (1);
+	search_and_replace(ft_copy("_"), ft_copy("env"), &(params->env), 0);
+	return (0);
 }
 
 char	**list2array(t_env *env, t_params *params)
@@ -69,11 +59,11 @@ char	**list2array(t_env *env, t_params *params)
 	i = 0;
 	tmp = params->env;
 	env2 = malloc (sizeof(char *) * (lstcounter(env) + 1));
-	// if (!env2)
-	// 	error(st, 2, params); // chechk another protection
-	while (tmp)
+	if (!env2)
+		malloc_error(params);
+	while (tmp && tmp->value && tmp->key)
 	{
-		env2[i++] = ft_strjoin_env(tmp->key, tmp->value);
+		env2[i++] = ft_strjoin_env(tmp->key, tmp->value, params);
 		tmp = tmp->next;
 	}
 	env2[i] = NULL;

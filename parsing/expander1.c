@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander1.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 10:58:34 by houamrha          #+#    #+#             */
+/*   Updated: 2024/08/06 16:22:28 by houamrha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	valide_val(t_decl *decl, char **n_t_v, t_token **token)
@@ -11,7 +23,7 @@ void	valide_val(t_decl *decl, char **n_t_v, t_token **token)
 		if (!(*n_t_v))
 		{
 			first_word_pos(decl->value, &decl->i, &decl->j);
-			*n_t_v = ft_mysubstr(decl->value, decl->i, decl->j - decl->i);
+			*n_t_v = fmysubstr(decl->value, decl->i, decl->j - decl->i);
 		}
 		add_middle(token, ft_mysplit(decl->value + decl->j, ' ', &decl->still));
 	}
@@ -21,11 +33,18 @@ void	valide_val(t_decl *decl, char **n_t_v, t_token **token)
 
 void	get_value(t_decl *decl, int *i, char *token_value, int status)
 {
+	if (!token_value[*i + 1])
+	{
+		decl->value = ft_strdup("$");
+		(*i)++;
+		decl->j = 0;
+		return ;
+	}
 	decl->j = 0;
 	(*i)++;
 	decl->first = *i;
 	if (token_value[*i] && !is_alph(token_value[*i]) && token_value[*i] != '_')
- 		(*i)++;
+		(*i)++;
 	else
 	{
 		while (token_value[*i] && token_value[*i] != '$'
@@ -33,18 +52,17 @@ void	get_value(t_decl *decl, int *i, char *token_value, int status)
 			(*i)++;
 	}
 	if (token_value[decl->first] == '?')
-		decl->value = ft_strdup(ft_itoa(status));
+		decl->value = set_status(status);
 	else
-		decl->value = get_key(ft_mysubstr(token_value,
-				decl->first, (*i) - decl->first), decl->env);
+		decl->value = get_key(fmysubstr(token_value,
+					decl->first, (*i) - decl->first), decl->env);
 }
 
 void	set_value(char **n_t_v, char *token_value, int *i, t_token **token)
 {
 	t_decl	decl;
 
-	decl.still = 0;
-	decl.env = (*token)->env;
+	42 && (decl.still = 0, decl.env = (*token)->env);
 	while (token_value[*i])
 	{
 		if (token_value[*i] == '$')
@@ -61,7 +79,7 @@ void	set_value(char **n_t_v, char *token_value, int *i, t_token **token)
 			while (token_value[*i] && token_value[*i] != '$')
 				(*i)++;
 			if (!(*token)->flag && !decl.still)
-				*n_t_v = ft_strjoin(*n_t_v, ft_mysubstr(token_value,
+				*n_t_v = ft_strjoin(*n_t_v, fmysubstr(token_value,
 							decl.first, *i - decl.first));
 			else
 				comp(decl, token, token_value, i);
@@ -75,15 +93,15 @@ void	non_quotes_expander(t_token **token, t_params params)
 	char	*n_t_v;
 	t_token	*tmp;
 
-	(*token)->status = params.status;
 	i = 0;
 	n_t_v = NULL;
 	tmp = *token;
 	while ((*token)->value[i] && (*token)->value[i] != '$')
 		i++;
 	if (i)
-		n_t_v = ft_mysubstr((*token)->value, 0, i);
+		n_t_v = fmysubstr((*token)->value, 0, i);
 	(*token)->env = params.env;
+	(*token)->status = params.status;
 	if ((*token)->value[i])
 		set_value(&n_t_v, (*token)->value, &i, token);
 	tmp->value = n_t_v;
@@ -96,7 +114,8 @@ void	expander(t_token *token, t_params params)
 	while (token)
 	{
 		token->flag = 0;
-		if (ft_strcmp(token->type, "WORD") == 0 && !token->here && in_str(token->value, '$'))
+		if (ft_strcmp(token->type, "WORD") == 0
+			&& !token->here && in_str(token->value, '$'))
 		{
 			if (in_str(token->value, '\'') || in_str(token->value, '"'))
 				quotes_expander(&token, token->value, params);

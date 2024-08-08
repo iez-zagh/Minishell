@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1.c                                           :+:      :+:    :+:   */
+/*   syntax_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 11:03:40 by houamrha          #+#    #+#             */
-/*   Updated: 2024/07/30 11:03:44 by houamrha         ###   ########.fr       */
+/*   Created: 2024/07/30 11:02:58 by houamrha          #+#    #+#             */
+/*   Updated: 2024/08/06 12:09:00 by houamrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	in_str(char *str, char c)
+int	syntax(t_token *token, t_params *params)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
-		i++;
-	}
+	if (pipe_syntax(token, params))
+		return (1);
+	if (redirection_syntax(token, params))
+		return (1);
 	return (0);
 }

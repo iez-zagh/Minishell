@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils4.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 11:04:12 by houamrha          #+#    #+#             */
+/*   Updated: 2024/07/30 11:04:14 by houamrha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 int	word_count(char *str)
@@ -10,13 +22,13 @@ int	word_count(char *str)
 	while (str[i])
 	{
 		while (str[i] && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n'))
-		i++;
+			i++;
 		if (str[i])
 			count ++;
 		while (str[i] && str[i] != ' ' && str[i] != '\t' && str[i] != '\n')
 			i++;
-		}
-	return count;
+	}
+	return (count);
 }
 
 int	white_word(char *str)

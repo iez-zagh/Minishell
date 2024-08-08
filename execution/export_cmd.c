@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd_cmd.c                                           :+:      :+:    :+:   */
+/*   export_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:22:17 by iez-zagh          #+#    #+#             */
-/*   Updated: 2024/07/18 15:50:24 by iez-zagh         ###   ########.fr       */
+/*   Updated: 2024/08/07 14:28:04 by houamrha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	change_pwd_value(t_params *params)
-{
-	search_and_replace("OLDPWD", ft_copy(get_key("PWD", params->env)), &(params->env), 1);
-	search_and_replace("PWD", get_pwd(params), &(params->env), 1);
-}
-
-t_env	*before_last_node(t_env *env)
-{
-	while (env->next->next)
-		env = env->next;
-	return (env);
-}
 
 void	ft_swap(t_env *a, t_env *b)
 {
@@ -69,42 +56,57 @@ void	just_export(t_params *params)
 	tmp = params->sorted_env;
 	while (tmp)
 	{
-		if (!(ft_strcmp("_", tmp->key)))
+		if (!ft_strcmp(tmp->key, "PATH") && params->path_flag)
+			;
+		else if (!tmp->value && ft_strcmp("_", tmp->key))
 		{
-			tmp = tmp->next;
-			continue ;
+			write(1, "declare -x ", 12);
+			write(1, tmp->key, ft_strlen(tmp->key));
+			write (1, "\n", 1);
 		}
-		if (!tmp->value)
-			printf("declare -x %s\n", tmp->key);
-		else
-			printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
+		else if (ft_strcmp("_", tmp->key))
+		{
+			write(1, "declare -x ", 11);
+			write(1, tmp->key, ft_strlen(tmp->key));
+			write(1, "=\"", 2);
+			write(1, tmp->value, ft_strlen(tmp->value));
+			write(1, "\"\n", 2);
+		}
 		tmp = tmp->next;
 	}
 }
 
-void	export_cmd1(t_parse *st, t_params *params)
+void	exporting(t_parse *st, t_params *params, char **res, int i)
+{
+	export_cmd(res, st->cmd[i], params);
+	params->status = 0;
+}
+
+int	export_cmd1(t_parse *st, t_params *params)
 {
 	int		i;
 	char	**res;
 
-	if (count_args(st->cmd) == 1) //handle the "export" yooo i am here
-	{
-		just_export(params);
-		return ;
-	}
-	i = 1;
+	42 && (res = NULL, i = 1);
+	if (count_args(st->cmd) == 1)
+		return (just_export(params), 0);
 	while (st->cmd[i])
 	{
-		if (check_syntax(st->cmd[i]))
-			printf("Shellantics: export: `%s': not a valid identifier\n", st->cmd[i]);
+		check_join(&(st->cmd[i]), st, params);
+		res = export_checker(st->cmd[i], params);
+		if (!res || !res[0])
+			return (perror("malloc"), 1);
+		if (check_syntax(res[0]))
+		{
+			print_error("export", ": not a valid identifier\n", st->cmd[i]);
+			params->status = 1;
+		}
 		else
 		{
-			check_join(&(st->cmd[i]), st, params);
-			res = export_checker(st->cmd[i]);
-			if (!res)
-				error(st, 7, params);
-			export_cmd(res, st->cmd[i], params);
+			params->path_flag = 0;
+			exporting(st, params, res, i);
 		}
 		i++;
 	}
+	return (params->status);
 }

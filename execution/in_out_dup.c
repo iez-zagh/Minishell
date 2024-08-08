@@ -1,79 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   in_out_dup.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: iez-zagh <iez-zagh@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/01 13:24:39 by iez-zagh          #+#    #+#             */
+/*   Updated: 2024/08/07 18:13:31 by iez-zagh         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int	check_perms(t_parse *st, t_params *params)
+int	check_perms(char *s, int type)
 {
-	int		fd;
-	t_files	*tmp;
+	int			fd;
+	struct stat	path;
 
-	tmp = st->files;
-	while (tmp)
-	{
-		// printf("[[file==%s]], type==%d\n", tmp->file, tmp->type);
-		if (access(tmp->file, R_OK) == -1 && access(tmp->file, F_OK) != -1)
-		{
-			if (!params->pid)
-				exit (0);
-			printf("shellantics: %s: Permission denied\n", tmp->file);
-			return (1);
-		}
-		if (tmp->type != 1)
-		{
-			tmp = tmp->next;
-			continue ;
-		}
-		fd = open(tmp->file, O_RDONLY);
-		if (fd == -1)
-		{
-			if (!params->pid)
-				exit (0);
-			printf("shellantics: %s: No such file or directory\n", tmp->file);
-			return (1);
-		}
+	fd = 0;
+	stat(s, &path);
+	if (type != 1 && S_ISDIR(path.st_mode))
+		return (print_error(NULL, ": is a directory\n", s), 1);
+	if (access(s, R_OK) == -1 && access(s, F_OK) != -1)
+		return (print_error(NULL, ": Permission denied\n", s), 1);
+	if (type == 1)
+		fd = open(s, O_RDONLY);
+	if (fd && fd == -1)
+		return ((print_error(NULL, ": No such file or directory\n",
+					s)), 1);
+	if (fd)
 		close (fd);
-		tmp = tmp->next;
-	}
-	return (0);
-}
-
-int	check_builtins(char *s)
-{
-	if (!(ft_strcmp(s, "cd")) || !(ft_strcmp(s, "export"))
-		|| !(ft_strcmp(s, "unset"))
-		|| !(ft_strcmp(s, "env")) || !(ft_strcmp(s, "exit"))
-		||!(ft_strcmp(s, "pwd"))
-		||!(ft_strcmp(s, ".")))
-		return (1);
 	return (0);
 }
 
 int	excute_cmd_dup(t_parse *st, t_params *params, int fd)
 {
-	int	status;
-
-	status = 0;
-	if (!params->pid)
+	if (fd != -2)
 	{
-		if (check_builtins(st->cmd[0]))
+		params->stdin_ = dup(STDIN_FILENO);
+		if (dup2(fd, STDIN_FILENO) == -1)
 		{
+			perror ("dup2");
 			close (fd);
 			return (1);
 		}
-		if (fd)
+		close (fd);
+	}
+	if (st->out_fd != -2)
+	{
+		params->stdout_ = dup(STDOUT_FILENO);
+		if (dup2(st->out_fd, STDOUT_FILENO) == -1)
 		{
-			dup2(fd, 0);
-			close (fd);
-		}
-		if (st->out_fd)
-		{
-			dup2(st->out_fd, 1);
+			perror ("dup2");
 			close (st->out_fd);
+			return (1);
 		}
-		if (!st->com_path)
-		{
-			printf("%s :command not found\n", st->cmd[0]);
-			exit (127); 
-		}
-		execve(st->com_path, st->cmd, params->env2); //protection
+		close (st->out_fd);
 	}
 	return (0);
 }
@@ -89,34 +71,49 @@ int	get_type(t_files *files, char *s)
 	return (0);
 }
 
+int	open_files(t_parse *st, t_params *params)
+{
+	t_files	*file;
+	int		out;
+
+	1 && (out = -1, file = st->files);
+	while (file)
+	{
+		if (check_perms(file->file, file->type))
+			return (1);
+		if (file->is_amb)
+			return (write(2, "shellantics: ambiguous redirect\n", 32),
+				close(st->in_fd), params->status = 1, 1);
+		if (file->type == 2)
+			st->out_fd = open(file->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (file->type == 3)
+			st->out_fd = open(file->file, O_WRONLY | O_CREAT
+					| O_APPEND, 0644);
+		if (file->type != 1 && !ft_strcmp(file->file, st->out_dup))
+			out = file->type;
+		close (st->out_fd);
+		file = file->next;
+	}
+	if (open_fs(st, out))
+		return (1);
+	return (0);
+}
+
 int	in_out_dup(t_parse *st, t_params *params)
 {
-	if (check_perms(st, params))
+	st->in_fd = -2;
+	st->out_fd = -2;
+	if (open_files(st, params))
 	{
-		params->status = 1;
+		if (!params->pid)
+			exit (1);
+		return (1);
+	}
+	if (!st->cmd || !st->cmd[0])
+	{
 		if (!params->pid)
 			exit (0);
-		return (1);
 	}
-	if (!st->in_fd)
-		st->in_fd = open(st->in_dup, O_RDONLY);
-	st->out_fd = 0;
-	if (st->out_dup)
-	{
-		// if () handle the append here, just the type on the struct
-		if (get_type(st->files, st->out_dup) == 3)
-			st->out_fd = open(st->out_dup, O_RDWR | O_CREAT | O_APPEND, 0777);
-		else
-			st->out_fd = open(st->out_dup, O_RDWR | O_CREAT | O_TRUNC, 0777); //get the offset to 0
-		if (st->out_fd == -1)
-		{
-			perror("open"); // handele this later
-			return 1;
-		}
-	}
-	if (!st->cmd[0] || !st->cmd)
-		return (1);
-	if (!params->pid)
-		excute_cmd_dup(st, params, st->in_fd);
-	return (1);
+	excute_cmd_dup(st, params, st->in_fd);
+	return (0);
 }

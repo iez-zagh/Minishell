@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander2.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: houamrha <houamrha@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/30 10:59:33 by houamrha          #+#    #+#             */
+/*   Updated: 2024/08/06 16:14:34 by houamrha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 void	is_in_quote(t_decl2 *decl, char *t_v)
@@ -23,15 +35,15 @@ void	inside_single_quote(t_decl2 *decl, t_token **token, char *t_v)
 		decl->i++;
 	if (!(*token)->flag && !decl->still)
 		decl->n_t_v = ft_strjoin(decl->n_t_v,
-				ft_mysubstr(t_v, decl->start, decl->i - decl->start));
+				fmysubstr(t_v, decl->start, decl->i - decl->start));
 	else
 	{
 		if (decl->still)
 			add_middle_n(token,
-				ft_mysubstr(t_v, decl->start, decl->i - decl->start));
+				fmysubstr(t_v, decl->start, decl->i - decl->start));
 		else
 			(*token)->value = ft_strjoin((*token)->value,
-					ft_mysubstr(t_v, decl->start, decl->i - decl->start));
+					fmysubstr(t_v, decl->start, decl->i - decl->start));
 	}
 }
 
@@ -40,23 +52,30 @@ void	double_quote_key(t_decl2 *decl, char *t_v, t_params params)
 	decl->i += 1;
 	decl->start = decl->i;
 	if (t_v[decl->i] && !is_alph(t_v[decl->i]) && t_v[decl->i] != '_')
-			decl->i++;
+		decl->i++;
 	else
 	{
-		while (t_v[decl->i] && (is_alph_num(t_v[decl->i]) || t_v[decl->i] == '_'))
+		while (t_v[decl->i] && (is_alph_num(t_v[decl->i])
+				|| t_v[decl->i] == '_'))
 			decl->i++;
 	}
 	if (t_v[decl->start] == '?')
-		decl->value = ft_strdup(ft_itoa(params.status));
+	{
+		if (g_status == 2)
+			decl->value = ft_strdup(ft_itoa(1));
+		else
+			decl->value = ft_strdup(ft_itoa(params.status));
+	}
 	else
-		decl->value = get_key(ft_mysubstr(t_v, decl->start, decl->i - decl->start), params.env);
+		decl->value = get_key(fmysubstr(t_v, decl->start,
+					decl->i - decl->start), params.env);
 	if (decl->value)
 		decl->n_t_v = ft_strjoin(decl->n_t_v, decl->value);
 	else
 		decl->n_t_v = ft_strjoin(decl->n_t_v, "");
 }
 
-void	inside_quotes(t_decl2 *decl, char *t_v, t_token **token, t_params params)
+void	in_quotes(t_decl2 *decl, char *t_v, t_token **token, t_params params)
 {
 	if (decl->quote == '\'')
 		inside_single_quote(decl, token, t_v);
@@ -71,15 +90,15 @@ void	inside_quotes(t_decl2 *decl, char *t_v, t_token **token, t_params params)
 				decl->i++;
 			if (!(*token)->flag && !decl->still)
 				decl->n_t_v = ft_strjoin(decl->n_t_v,
-						ft_mysubstr(t_v, decl->start, decl->i - decl->start));
+						fmysubstr(t_v, decl->start, decl->i - decl->start));
 			else
 			{
 				if (decl->still)
-					add_middle_n(token, ft_mysubstr(t_v,
+					add_middle_n(token, fmysubstr(t_v,
 							decl->start, decl->i - decl->start));
 				else
 					(*token)->value = ft_strjoin((*token)->value,
-							ft_mysubstr(t_v, decl->start, decl->i - decl->start));
+							fmysubstr(t_v, decl->start, decl->i - decl->start));
 			}
 		}
 	}
@@ -100,7 +119,7 @@ void	quotes_expander(t_token **token, char *t_v, t_params params)
 	{
 		is_in_quote(&decl, t_v);
 		if (decl.in_quote)
-			inside_quotes(&decl, t_v, token, params);
+			in_quotes(&decl, t_v, token, params);
 		else
 			out_quotes(&decl, t_v, token, params);
 	}
